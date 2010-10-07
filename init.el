@@ -127,7 +127,7 @@
 (setq load-path (cons (expand-file-name "~/src/local/gnus/lisp") load-path))
 (require 'gnus-load)
 (require 'info)
-(add-to-list 'Info-default-directory-list (expand-file-name "~/src/local/gnus/texi/"))
+(add-to-list 'Info-default-directory-list (expand-file-name "~/src/local/gnus/texi"))
 
 (require 'aaditya-settings)
 (require 'aaditya-packages)

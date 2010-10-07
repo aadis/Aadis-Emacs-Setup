@@ -11,7 +11,7 @@
                               (height . 67)
                               (cursor-type . bar)
                               (cursor-color . "blue")))
-  (set-cursor-color "blue")
+  (set-cursor-color "blue"))
 
 (aaditya/set-screen)
 
