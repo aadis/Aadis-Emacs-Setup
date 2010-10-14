@@ -17,8 +17,14 @@
 (global-set-key (kbd "C-z C-z") 'elscreen-toggle)
 
 (require 'color-theme)
-(when (load "color-theme-github" t)
-  (color-theme-github))
+(color-theme-initialize)
+;; (when (fboundp 'color-theme-dark-laptop)
+;;   (color-theme-charcoal-black))
+
+(when (load "color-theme-subdued" t)
+  (color-theme-subdued))
+;; (when (load "color-theme-github" t)
+;;   (color-theme-github))
 
 (require 'winner)
 (winner-mode 1)
@@ -96,5 +102,16 @@
 (defun js2-custom-setup ()
   (moz-minor-mode 1))
 (add-hook 'js2-mode-hook 'js2-custom-setup)
+
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq-default TeX-master nil)
+
+(add-hook 'LaTeX-mode-hook 'auto-fill-mode)
+(add-hook 'LaTeX-mode-hook 'flyspell-mode)
+(add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+
+(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+(setq reftex-plug-into-AUCTeX t)
 
 (provide 'aaditya-packages)

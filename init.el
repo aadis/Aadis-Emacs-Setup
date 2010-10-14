@@ -119,6 +119,13 @@
         (:name pylookup
                :type git
                :url "http://github.com/tsgates/pylookup.git")
+        (:name auctex
+               :type cvs
+               :module "auctex"
+               :url ":pserver:anonymous@cvs.sv.gnu.org:/sources/auctex"
+               :build ("./autogen.sh" "./configure --with-emacs=/Users/aaditya/Applications/Emacs.app/Contents/MacOS/Emacs --with-lispdir . --with-texmf-dir=/Library/TeX/Root/texmf" "make")
+               :load  ("auctex.el" "preview/prv-emacs.el" "preview/preview.el" "preview/preview-latex.el")
+               :info "doc")
         )
       )
 
@@ -140,6 +147,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(TeX-newline-function (quote newline-and-indent))
  '(egg-enable-tooltip t)
  '(elscreen-display-screen-number nil)
  '(elscreen-tab-display-control nil)
@@ -151,22 +159,5 @@
  '(regex-tool-backend (quote perl))
  '(show-paren-style (quote expression))
  '(tabbar-separator (quote ("\"                             \""))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(egg-branch ((((class color) (background light)) (:inherit egg-header :foreground "SkyBlue"))))
- '(egg-section-title ((((class color) (background light)) (:inherit egg-header :foreground "DarkGoldenrod" :height 1.0 :family "Menlo"))))
- '(elscreen-tab-background-face ((t (:background "#b840b840bf40" :height 1.6 :family "Skia"))))
- '(elscreen-tab-control-face ((t (:background "#f8f8ff" :foreground "#000000" :height 1.6 :family "Skia"))))
- '(elscreen-tab-current-screen-face ((t (:background "lemon chiffon" :foreground "#000000" :box (:line-width 1 :color "grey75") :height 160 :family "Skia"))))
- '(elscreen-tab-other-screen-face ((t (:background "#d820d820df20" :foreground "#5fa05fa05fa0" :height 160 :family "Skia"))))
- '(flymake-infoline ((((class color) (background light)) (:background "#C0EEC0"))))
- '(mode-line ((t (:background "grey75" :foreground "black" :weight normal :height 140 :family "Skia"))))
- '(mode-line-buffer-id ((t (:weight bold))))
- '(show-paren-match ((t (:background "#fff6a9" :slant italic))))
- '(tabbar-default ((t (:inherit variable-pitch :background "gray75" :foreground "gray50" :weight bold :height 1.2 :family "Lucida Grande"))))
- '(tabbar-separator ((t (:inherit tabbar-default :height 0.1 :width extra-expanded)))))
 
 (toggle-debug-on-error nil)
