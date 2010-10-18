@@ -13,7 +13,7 @@
 (setq load-path
       (append (list "~/.emacs.d/elscreen-server-0.2.0") load-path))
 
-(setq package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/") 
+(setq package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/")
 			       ("elpa" . "http://tromey.com/elpa/"))))
 (require 'package)
 (package-initialize)
@@ -24,9 +24,9 @@
 	(:name rainbow-mode     :type elpa)
 	(:name asciidoc         :type elpa)
 	(:name js2-mode         :type elpa)
-	;; (:name "el-get" 
-	;;        :type "git" 
-	;;        :url "git://github.com/dimitri/el-get.git" 
+	;; (:name "el-get"
+	;;        :type "git"
+	;;        :url "git://github.com/dimitri/el-get.git"
 	;;        :features el-get)
         (:name magit
 	       :type git
@@ -86,6 +86,11 @@
                :type http-tar
                :options ("zxf")
                :url "http://kanji.zinbun.kyoto-u.ac.jp/~tomo/lemi/dist/apel/apel-10.8.tar.gz")
+        (:name session
+               :type http-tar
+               :options ("zxf")
+               :url "http://downloads.sourceforge.net/project/emacs-session/session/2.2/session-2.2.tar.gz?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Femacs-session%2Ffiles%2F&ts=1287385055&use_mirror=softlayer"
+               :load "lisp/session.el")
         ;; (:name elscreen
         ;;        :type http
         ;;        :url "ftp://ftp.morishima.net/pub/morishima.net/naoto/ElScreen/elscreen-1.4.6.tar.gz")
@@ -148,17 +153,23 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(TeX-newline-function (quote newline-and-indent))
+ '(blink-cursor-mode t)
  '(egg-enable-tooltip t)
  '(elscreen-display-screen-number nil)
  '(elscreen-tab-display-control nil)
  '(elscreen-tab-display-kill-screen (quote right))
  '(eshell-modules-list (quote (eshell-alias eshell-banner eshell-basic eshell-cmpl eshell-dirs eshell-glob eshell-hist eshell-ls eshell-pred eshell-prompt eshell-rebind eshell-script eshell-smart eshell-term eshell-unix eshell-xtra)))
  '(ido-default-file-method (quote selected-window))
+ '(ido-enable-regexp t)
  '(ipython-command "/Users/aaditya/src/id/vaitarna/pylons-shell")
  '(ns-function-modifier (quote hyper))
  '(regex-tool-backend (quote perl))
+ '(show-paren-mode t)
  '(show-paren-style (quote expression))
- '(tabbar-separator (quote ("\"                             \""))))
+ '(size-indication-mode t)
+ '(tabbar-separator (quote ("\"                             \"")))
+ '(tool-bar-mode nil)
+ '(transient-mark-mode nil))
 
 (toggle-debug-on-error nil)
 (custom-set-faces
@@ -166,4 +177,9 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(visible-mark-face ((t (:box (:line-width 1 :color "darkred"))))))
+ '(default ((t (:stipple nil :background "#000" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Menlo"))))
+ '(elscreen-tab-background-face ((t (:background "black" :weight bold :height 1.6))))
+ '(elscreen-tab-current-screen-face ((t (:background "LightGoldenrod1" :foreground "black" :weight normal :height 1.1 :family "Geneva"))))
+ '(elscreen-tab-other-screen-face ((t (:background "gray95" :foreground "black" :underline nil :height 1.1 :family "Geneva"))))
+ '(ido-first-match ((t (:foreground "gold" :inverse-video nil :weight normal))))
+ '(visible-mark-face ((t (:inverse-video t)))))

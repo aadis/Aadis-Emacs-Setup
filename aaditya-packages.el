@@ -6,7 +6,7 @@
 
 (require 'edit-server)
 (edit-server-start)
-  
+
 (setq elscreen-display-tab 45)
 
 (require 'elscreen)
@@ -18,13 +18,8 @@
 
 (require 'color-theme)
 (color-theme-initialize)
-;; (when (fboundp 'color-theme-dark-laptop)
-;;   (color-theme-charcoal-black))
-
 (when (load "color-theme-subdued" t)
   (color-theme-subdued))
-;; (when (load "color-theme-github" t)
-;;   (color-theme-github))
 
 (require 'winner)
 (winner-mode 1)
@@ -98,7 +93,7 @@
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
 (autoload 'moz-minor-mode "moz" "Mozilla Minor and Inferior Mozilla Modes" t)
-  
+
 (defun js2-custom-setup ()
   (moz-minor-mode 1))
 (add-hook 'js2-mode-hook 'js2-custom-setup)
@@ -113,5 +108,8 @@
 
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-AUCTeX t)
+
+(require 'midnight)
+(midnight-delay-set 'midnight-delay "4:30am")
 
 (provide 'aaditya-packages)

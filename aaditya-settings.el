@@ -1,14 +1,14 @@
-(tool-bar-mode -1)
+;;(tool-bar-mode -1)
 
 (defun aaditya/set-screen ()
   (setq default-frame-alist '(
-                              (width . 234) 
-                              (height . 67)
+                              (width . 234)
+                              (height . 71)
                               (cursor-type . bar)
                               (cursor-color . "red")))
   (setq initial-frame-alist '(
-                              (width . 234) 
-                              (height . 67)
+                              (width . 234)
+                              (height . 71)
                               (cursor-type . bar)
                               (cursor-color . "red")))
   (set-cursor-color "red"))
@@ -16,6 +16,9 @@
 (aaditya/set-screen)
 
 (toggle-debug-on-error nil)
+
+(setq split-height-threshold nil
+      split-width-threshold most-positive-fixnum)
 
 (show-paren-mode t)
 (global-auto-revert-mode t)
@@ -29,7 +32,22 @@
 (add-hook 'after-save-hook
           'executable-make-buffer-file-executable-if-script-p)
 
-(desktop-save-mode t)
+;; (desktop-save-mode t)
+;; (setq history-length 250)
+;; (add-hook 'auto-save-hook (lambda () (desktop-save-in-desktop-dir)))
+;; (add-to-list 'desktop-globals-to-save 'file-name-history)
+;; (setq desktop-buffers-not-to-save
+;;       (concat "\\("
+;;               "^nn\\.a[0-9]+\\|\\.log\\|(ftp)\\|^tags\\|^TAGS"
+;;               "\\|\\.emacs.*\\|\\.diary\\|\\.newsrc-dribble\\|\\.bbdb"
+;;               "\\)$"))
+;; (add-to-list 'desktop-modes-not-to-save 'dired-mode)
+;; (add-to-list 'desktop-modes-not-to-save 'Info-mode)
+;; (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
+;; (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
+(when (require 'session nil t)
+  (add-hook 'after-init-hook 'session-initialize))
+
 
 ;;use auto compression
 (auto-compression-mode 1)
@@ -37,6 +55,34 @@
 (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
        "Prevent annoying \"Active processes exist\" query when you quit Emacs."
        (flet ((process-list ())) ad-do-it))
+
+(global-set-key "\C-x\C-m" 'smex)
+(global-set-key "\C-c\C-m" 'smex)
+;;(global-set-key "\C-w" 'backward-kill-word)
+(global-set-key "\C-x\C-k" 'kill-region)
+(global-set-key "\C-c\C-k" 'kill-region)
+(when (require 'misc)
+  (global-set-key "\M-z" 'zap-up-to-char))
+
+;;recentf
+(require 'recentf)
+(recentf-mode 1)
+(setq recentf-max-saved-items 500)
+(setq recentf-max-menu-items 60)
+(global-set-key [(meta f12)] 'recentf-open-files)
+
+(defun xsteve-ido-choose-from-recentf ()
+  "Use ido to select a recently opened file from the `recentf-list'"
+  (interactive)
+  (let ((home (expand-file-name (getenv "HOME"))))
+    (find-file
+     (ido-completing-read "Recentf open: "
+                          (mapcar (lambda (path)
+                                    (replace-regexp-in-string home "~" path))
+                                  recentf-list)
+                          nil t))))
+
+(global-set-key [(meta f11)] 'xsteve-ido-choose-from-recentf)
 
 ;;settings
 (setq
@@ -112,5 +158,30 @@
             (define-key comint-mode-map "\C-w" 'comint-kill-region)
             (define-key comint-mode-map [C-S-backspace] 'comint-kill-whole-line)))
 
+
+;;whitespace stuff
+(require 'whitespace)
+;; nuke trailing whitespaces when writing to a file
+(add-hook 'write-file-hooks 'delete-trailing-whitespace)
+
+;; display only tails of lines longer than 80 columns, tabs and
+;; trailing whitespaces
+(setq whitespace-line-column 80
+      whitespace-style '(tabs trailing lines-tail))
+
+;; face for long lines' tails
+(set-face-attribute 'whitespace-line nil
+                    :background "red1"
+                    :foreground "yellow"
+                    :weight 'bold)
+
+;; face for Tabs
+(set-face-attribute 'whitespace-tab nil
+                    :background "red1"
+                    :foreground "yellow"
+                    :weight 'bold)
+
+;; activate minor whitespace mode when in python mode
+(add-hook 'python-mode-hook 'whitespace-mode)
 
 (provide 'aaditya-settings)

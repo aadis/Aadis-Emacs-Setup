@@ -1,7 +1,7 @@
 (require 'python-mode)
 
 (require 'pymacs)
-(pymacs-load "ropemacs" "rope-")
+;;(pymacs-load "ropemacs" "rope-")
 (setq ropemacs-confirm-saving nil
       ropemacs-guess-project t
       ropemacs-enable-autoimport t
@@ -19,19 +19,19 @@
 (setq ipython-completion-command-string
       "print(';'.join(__IP.Completer.all_completions('%s'))) #PYTHON-MODE SILENT\n")
 
-(add-to-list 'load-path "~/.emacs.d/el-get/flymake-python") 
+(add-to-list 'load-path "~/.emacs.d/el-get/flymake-python")
 
-(when (load "flymake" t)
-  (defun flymake-pylint-init ()
-    (let* ((temp-file (flymake-init-create-temp-buffer-copy
-                       'flymake-create-temp-inplace))
-           (local-file (file-relative-name
-                        temp-file
-                        (file-name-directory buffer-file-name))))
-      (list "~/.emacs.d/el-get/flymake-python/pyflymake.py" (list local-file))))
+;; (when (load "flymake" t)
+;;   (defun flymake-pylint-init ()
+;;     (let* ((temp-file (flymake-init-create-temp-buffer-copy
+;;                        'flymake-create-temp-inplace))
+;;            (local-file (file-relative-name
+;;                         temp-file
+;;                         (file-name-directory buffer-file-name))))
+;;       (list "~/.emacs.d/el-get/flymake-python/pyflymake.py" (list local-file))))
 
-  (add-to-list 'flymake-allowed-file-name-masks
-               '("\\.py\\'" flymake-pylint-init)))
+;;   (add-to-list 'flymake-allowed-file-name-masks
+;;                '("\\.py\\'" flymake-pylint-init)))
 
 ;; Not happy that I have to specify the path to pdb. It should be on
 ;; my path already. Need to find or write a `which` command for emacs.
@@ -49,10 +49,10 @@
   "Launch PyDOC on the Word at Point"
   (interactive
    (list (let* ((word (thing-at-point 'word))
-                (input (read-string 
-                        (format "pydoc entry%s: " 
+                (input (read-string
+                        (format "pydoc entry%s: "
                                 (if (not word) "" (format " (default %s)" word))))))
-           (if (string= input "") 
+           (if (string= input "")
                (if (not word) (error "No pydoc args given")
                  word)                  ;sinon word
              input))))                  ;sinon input
@@ -61,23 +61,23 @@
 
 (add-hook 'python-mode-hook
           '(lambda () (eldoc-mode 1)
-             (unless (eq buffer-file-name nil) (flymake-mode 1)) ;dont invoke flymake on temporary buffers for the interpreter
-               (set-variable 'py-indent-offset 4)
-               (set-variable 'py-smart-indentation nil)
-               (set-variable 'indent-tabs-mode nil)
-               (local-set-key "\C-c\C-f" 'py-doc-search)
-               (eldoc-mode 1)
-               ;;(highlight-beyond-fill-column)
+             (unless (eq buffer-file-name nil) (flymake-mode nil)) ;dont invoke flymake on temporary buffers for the interpreter
+             (set-variable 'py-indent-offset 4)
+             (set-variable 'py-smart-indentation nil)
+             (set-variable 'indent-tabs-mode nil)
+             (local-set-key "\C-c\C-f" 'py-doc-search)
+             (eldoc-mode 1)
+             ;;(highlight-beyond-fill-column)
 
-               ;;(pabbrev-mode)
-               (abbrev-mode)
+             ;;(pabbrev-mode)
+             (abbrev-mode)
 
              ) t)
 
 (defun pylons-shell (&optional argprompt)
   (interactive "P")
   ;; Set the default shell if not already set
-  (labels ((read-pylons-project-dir 
+  (labels ((read-pylons-project-dir
 	    (prompt dir)
 	    (let* ((dir (read-directory-name prompt dir))
 		   (manage (expand-file-name (concat dir "pylons-shell"))))
@@ -87,11 +87,11 @@
 		  (message "%s is not a Pylons project directory" manage)
 		  (sleep-for .5)
 		  (read-pylons-project-dir prompt dir))))))
-    (let* ((dir (read-pylons-project-dir 
-		 "project directory: " 
+    (let* ((dir (read-pylons-project-dir
+		 "project directory: "
 		 default-directory))
-	   (project-name (first 
-			  (remove-if (lambda (s) (or (string= "src" s) (string= "" s))) 
+	   (project-name (first
+			  (remove-if (lambda (s) (or (string= "src" s) (string= "" s)))
 				     (reverse (split-string dir "/")))))
 	   (buffer-name (format "pylons-%s" project-name))
 	   (manage (concat dir "pylons-shell")))
