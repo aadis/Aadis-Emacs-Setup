@@ -28,6 +28,11 @@
 	;;        :type "git"
 	;;        :url "git://github.com/dimitri/el-get.git"
 	;;        :features el-get)
+
+        (:name org
+	       :type git
+	       :url "git://repo.or.cz/org-mode.git"
+	       :build ("make EMACS=/Users/aaditya/Applications/Emacs.app/Contents/MacOS/Emacs"))
         (:name magit
 	       :type git
 	       :url "http://github.com/philjackson/magit.git"
@@ -154,6 +159,7 @@
  ;; If there is more than one, they won't work right.
  '(TeX-newline-function (quote newline-and-indent))
  '(blink-cursor-mode t)
+ '(custom-enabled-themes (quote (tango-dark)))
  '(egg-enable-tooltip t)
  '(elscreen-display-screen-number nil)
  '(elscreen-tab-display-control nil)
@@ -169,7 +175,10 @@
  '(size-indication-mode t)
  '(tabbar-separator (quote ("\"                             \"")))
  '(tool-bar-mode nil)
- '(transient-mark-mode nil))
+ '(transient-mark-mode nil)
+ '(uniquify-buffer-name-style (quote post-forward-angle-brackets) nil (uniquify))
+ '(uniquify-separator " | ")
+ '(uniquify-trailing-separator-p t))
 
 (toggle-debug-on-error nil)
 (custom-set-faces
@@ -182,4 +191,9 @@
  '(elscreen-tab-current-screen-face ((t (:background "LightGoldenrod1" :foreground "black" :weight normal :height 1.1 :family "Geneva"))))
  '(elscreen-tab-other-screen-face ((t (:background "gray95" :foreground "black" :underline nil :height 1.1 :family "Geneva"))))
  '(ido-first-match ((t (:foreground "gold" :inverse-video nil :weight normal))))
+ '(magit-diff-add ((t (:foreground "green"))))
+ '(magit-item-highlight ((t (:background "gray20"))))
+ '(mumamo-background-chunk-major ((t nil)))
+ '(mumamo-background-chunk-submode1 ((t nil)))
+ '(mumamo-background-chunk-submode2 ((t (:background "gray20"))))
  '(visible-mark-face ((t (:inverse-video t)))))

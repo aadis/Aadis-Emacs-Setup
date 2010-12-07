@@ -16,10 +16,10 @@
 
 (global-set-key (kbd "C-z C-z") 'elscreen-toggle)
 
-(require 'color-theme)
-(color-theme-initialize)
-(when (load "color-theme-subdued" t)
-  (color-theme-subdued))
+;; (require 'color-theme)
+;; (color-theme-initialize)
+;; (when (load "color-theme-subdued" t)
+;;   (color-theme-subdued))
 
 (require 'winner)
 (winner-mode 1)
@@ -82,7 +82,12 @@
 
 (set-scroll-bar-mode 'right)
 
-(load "~/.emacs.d/nxhtml/autostart")
+(when (load "~/.emacs.d/nxhtml/autostart")
+  (require 'css-simple-completion)
+  (autoload 'css-color-mode "css-color" "" t)
+  (add-hook 'css-mode-hook 'css-color-mode-turn-on))
+
+
 
 
 (require 'js2-mode)
