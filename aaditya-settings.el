@@ -1,24 +1,37 @@
 ;;(tool-bar-mode -1)
 
+(setq ido-everywhere t)
+(ido-mode 1)
+;; File finding
+(global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
+
+
+;; Use regex searches by default.
+(global-set-key "\C-s" 'isearch-forward-regexp)
+(global-set-key "\C-r" 'isearch-backward-regexp)
+(global-set-key "\C-\M-s" 'isearch-forward)
+(global-set-key "\C-\M-r" 'isearch-backward)
+
+(set-scroll-bar-mode 'right)
+
+
 (defun aaditya/set-screen ()
   (interactive)
   (setq default-frame-alist '(
                               (top . 20) (left . 1)
-                              (width . 234)
-                              (height . 77)
+                              ;; (width . 234)
+                              ;; (height . 77)
                               (cursor-type . bar)
                               (cursor-color . "red")))
   (setq initial-frame-alist '(
                               (top . 10) (left . 1)
-                              (width . 234)
-                              (height . 77)
+                              ;; (width . 234)
+                              ;; (height . 77)
                               (cursor-type . bar)
                               (cursor-color . "red")))
   (set-cursor-color "red"))
 
 (aaditya/set-screen)
-
-(toggle-debug-on-error nil)
 
 (setq split-height-threshold nil
       split-width-threshold most-positive-fixnum)
@@ -32,8 +45,8 @@
 (setq ns-command-modifier 'meta)
 
 ;; make scripts executable
-(add-hook 'after-save-hook
-          'executable-make-buffer-file-executable-if-script-p)
+;; (add-hook 'after-save-hook
+;;           'executable-make-buffer-file-executable-if-script-p)
 
 ;; (desktop-save-mode t)
 ;; (setq history-length 250)
@@ -48,27 +61,21 @@
 ;; (add-to-list 'desktop-modes-not-to-save 'Info-mode)
 ;; (add-to-list 'desktop-modes-not-to-save 'info-lookup-mode)
 ;; (add-to-list 'desktop-modes-not-to-save 'fundamental-mode)
-(when (require 'session nil t)
-  (add-hook 'after-init-hook 'session-initialize))
-
 
 ;;use auto compression
-(auto-compression-mode 1)
+;;(auto-compression-mode 1)
 
-(defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
-       "Prevent annoying \"Active processes exist\" query when you quit Emacs."
-       (flet ((process-list ())) ad-do-it))
+;; (defadvice save-buffers-kill-emacs (around no-query-kill-emacs activate)
+;;        "Prevent annoying \"Active processes exist\" query when you quit Emacs."
+;;        (flet ((process-list ())) ad-do-it))
 
-(global-set-key "\C-x\C-m" 'smex)
-(global-set-key "\C-c\C-m" 'smex)
-;;(global-set-key "\C-w" 'backward-kill-word)
 (global-set-key "\C-x\C-k" 'kill-region)
 (global-set-key "\C-c\C-k" 'kill-region)
-(when (require 'misc)
+
+(when (require 'misc nil t)
   (global-set-key "\M-z" 'zap-up-to-char))
 
 ;;recentf
-(require 'recentf)
 (recentf-mode 1)
 (setq recentf-max-saved-items 500)
 (setq recentf-max-menu-items 60)
@@ -165,7 +172,7 @@
 ;;whitespace stuff
 (require 'whitespace)
 ;; nuke trailing whitespaces when writing to a file
-(add-hook 'write-file-hooks 'delete-trailing-whitespace)
+;;(add-hook 'write-file-hooks 'delete-trailing-whitespace)
 
 ;; display only tails of lines longer than 80 columns, tabs and
 ;; trailing whitespaces
@@ -185,6 +192,6 @@
                     :weight 'bold)
 
 ;; activate minor whitespace mode when in python mode
-(add-hook 'python-mode-hook 'whitespace-mode)
+;;(add-hook 'python-mode-hook 'whitespace-mode)
 
 (provide 'aaditya-settings)

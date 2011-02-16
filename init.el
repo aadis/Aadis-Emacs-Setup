@@ -1,56 +1,57 @@
-(setq load-path
-      (append (list "~/.emacs.d/") load-path))
-(setq load-path
-      (append (list "~/.emacs.d/el-get/el-get") load-path))
-(setq load-path
-      (append (list "~/.emacs.d/color-theme-6.6.0") load-path))
-(setq load-path
-      (append (list "~/.emacs.d/elscreen-1.4.6") load-path))
-(setq load-path
-      (append (list "~/.emacs.d/elscreen-color-theme-0.0.0") load-path))
-(setq load-path
-      (append (list "~/.emacs.d/elscreen-dired-0.1.0") load-path))
-(setq load-path
-      (append (list "~/.emacs.d/elscreen-server-0.2.0") load-path))
-(setq load-path
-      (append (list "~/.emacs.d/el-get/ecb") load-path))
+;;setup some initial load paths
+(add-to-list 'load-path "~/.emacs.d/")
+(add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
 
+;;our package sources
 (setq package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/")
 			       ("elpa" . "http://tromey.com/elpa/"))))
 (require 'package)
 (package-initialize)
 (require 'el-get)
 
+;;all the packages we want to setup
 (setq el-get-sources
-      '((:name yaml-mode        :type elpa)
-	(:name rainbow-mode     :type elpa)
-	(:name asciidoc         :type elpa)
-	(:name js2-mode         :type elpa)
-	;; (:name "el-get"
-	;;        :type "git"
-	;;        :url "git://github.com/dimitri/el-get.git"
-	;;        :features el-get)
-
-        (:name magit)
-        (:name github
-               :type git
-               :url "http://github.com/dudleyf/color-theme-github.git")
-        (:name vibrant-ink
-               :type git
-               :url "http://github.com/mig/color-theme-vibrant-ink.git")
-        (:name smex)
+      '(
+	(:name yaml-mode)
+	(:name rainbow-mode)
+	(:name asciidoc)
+	(:name geiser
+               :after (lambda () 
+                        (require 'geiser-install)))
+	(:name ecb
+	       :after ((lambda () 
+                         (require 'semantic)
+                         ;;(global-ede-mode 1)
+                         (setq semantic-load-turn-everything-on t)
+                         (semantic-mode 1)
+                         (require 'cedet)
+                         (require 'ecb))))
+	(:name js2-mode
+	       :after (lambda ()
+                        (require 'js2-mode)
+                        (setq  js2-basic-offset 4
+                               js2-highlight-level 3
+                               js2-indent-on-enter-key t)
+                        (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))))
+	;;(:name el-get)
+        (:name magit
+	       :after (lambda ()
+                        (require 'magit)
+                        (global-set-key (kbd "C-x g") 'magit-status)))
+        (:name smex
+	       :after (lambda () 
+                        (require 'smex)
+                        (smex-initialize)
+                        (global-set-key (kbd "M-x") 'smex)
+                        (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+                        ;; This is your old M-x.
+                        (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)))
         (:name ectags
                :type git
                :url "git://repo.or.cz/ectags.git")
-        (:name egg
-	       :type git
-	       :url "http://github.com/bogolisk/egg.git")
-        (:name regex-tool
-	       :type git
-	       :url "http://github.com/jwiegley/regex-tool.git")
-        (:name git-blame
-	       :type http
-	       :url "http://github.com/tsgates/git-emacs/raw/master/git-blame.el")
+        (:name egg)
+        (:name regex-tool)
 	(:name yasnippet)
         (:name python-pep8
                :type git
@@ -63,71 +64,63 @@
                :url "git://gist.github.com/302848.git")
         (:name visible-mark
                :type http
-               :url "http://www.emacswiki.org/emacs/download/visible-mark.el")
-        (:name python-mode
-               :type http
-               :url "http://bazaar.launchpad.net/~python-mode-devs/python-mode/python-mode/download/head%3A/2%40fb98634b-d22b-0410-a57a-e996bee27b70%3Atrunk%252Fpython-mode%3Apython-mode.el/python-mode.el")
+               :url "http://www.emacswiki.org/emacs/download/visible-mark.el"
+	       :after (lambda () (global-visible-mark-mode t)))
+        (:name python-mode)
         (:name pymacs)
         (:name ropemacs)
-        (:name ipython
-               :type http
-               :url "http://ipython.scipy.org/dist/ipython.el")
-        (:name apel)
-        (:name session)
-        ;; (:name elscreen
-        ;;        :type http
-        ;;        :url "ftp://ftp.morishima.net/pub/morishima.net/naoto/ElScreen/elscreen-1.4.6.tar.gz")
-        ;; (:name elscreen-color-theme
-        ;;        :type http
-        ;;        :url "ftp://ftp.morishima.net/pub/morishima.net/naoto/ElScreen/elscreen-color-theme-0.0.0.tar.gz")
-        ;; (:name elscreen-dnd
-        ;;        :type http
-        ;;        :url "ftp://ftp.morishima.net/pub/morishima.net/naoto/ElScreen/elscreen-dnd-0.0.0.tar.gz")
-        ;; (:name elscreen-dired
-        ;;        :type http
-        ;;        :url "ftp://ftp.morishima.net/pub/morishima.net/naoto/ElScreen/elscreen-dired-0.1.0.tar.gz")
-        ;; (:name elscreen-server
-        ;;        :type http
-        ;;        :url "ftp://ftp.morishima.net/pub/morishima.net/naoto/ElScreen/elscreen-server-0.2.0.tar.gz")
+        (:name ipython)
+        ;; (:name apel)
+        (:name session
+	       :after (lambda () 
+                        (require 'session)
+                        (add-hook 'after-init-hook 'session-initialize)))
         (:name mysql
                :type http
                :url "http://www.emacswiki.org/emacs/download/mysql.el")
         (:name sql-completion
                :type http
-               :url "http://www.emacswiki.org/emacs/download/sql-completion.el")
+               :url "http://www.emacswiki.org/emacs/download/sql-completion.el"
+	       :after (lambda ()
+                        (require 'sql-completion)
+                        (setq sql-interactive-mode-hook
+                              (lambda ()
+                                (define-key sql-interactive-mode-map "\t" 'comint-dynamic-complete)
+                                (toggle-truncate-lines)
+                                (sql-mysql-completion-init)))))
         (:name moz
                :type http
-               :url "http://github.com/bard/mozrepl/raw/master/chrome/content/moz.el")
-        (:name sml-modeline)
+               :url "http://github.com/bard/mozrepl/raw/master/chrome/content/moz.el"
+	       :after (lambda ()
+                        (autoload 'moz-minor-mode "moz" "Mozilla Minor and Inferior Mozilla Modes" t)
+                        (defun js2-custom-setup ()
+                          (moz-minor-mode 1))
+                        (add-hook 'js2-mode-hook 'js2-custom-setup)))
+        (:name sml-modeline
+	       :after (lambda ()
+                        (require 'sml-modeline nil t)    ;; use sml-modeline if available
+                        (sml-modeline-mode 1)))
         (:name scratch)
         (:name pylookup)
-        (:name auctex)
+        ;;(:name auctex)
         )
       )
 
-(el-get)
-
-(require 'semantic)
-;;(global-ede-mode 1)
-(setq semantic-load-turn-everything-on t)
-(semantic-mode 1)
-(require 'cedet)
-(require 'ecb)
+(el-get 'sync)
 
 (setq semantic-python-dependency-system-include-path
       '("/Users/aaditya/work/id" "/Users/aaditya/work/id/src" "/Users/aaditya/work/id/src/id/vaitarna" "/Users/aaditya/.env/ep/lib/python2.6/site-packages" "/Users/aaditya/.env/ep/lib/python2.6" "/System/Library/Frameworks/Python.framework/Versions/2.6/lib/python2.6"))
 
 
-(require 'sml-modeline)
-
-(setq load-path (cons (expand-file-name "~/src/local/gnus/lisp") load-path))
-(require 'gnus-load)
+;; (setq load-path (cons (expand-file-name "~/src/local/gnus/lisp") load-path))
+;; (require 'gnus-load)
 (require 'info)
 (add-to-list 'Info-default-directory-list (expand-file-name "~/src/local/gnus/texi"))
 
 (require 'aaditya-settings)
 (require 'aaditya-packages)
 (require 'aaditya-python)
+
 (when (fboundp 'aaditya/set-screen)
   (aaditya/set-screen))
 
@@ -152,6 +145,7 @@
  '(elscreen-tab-display-control nil)
  '(elscreen-tab-display-kill-screen (quote right))
  '(eshell-modules-list (quote (eshell-alias eshell-banner eshell-basic eshell-cmpl eshell-dirs eshell-glob eshell-hist eshell-ls eshell-pred eshell-prompt eshell-rebind eshell-script eshell-smart eshell-term eshell-unix eshell-xtra)))
+ '(geiser-racket-binary "/Users/aaditya/Applications/Racket v5.1/bin/racket")
  '(ido-default-file-method (quote selected-window))
  '(ido-enable-regexp t)
  '(ipython-command "/Users/aaditya/work/id/vaitarna/pylons-shell")
