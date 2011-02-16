@@ -4,17 +4,14 @@
 
 (recentf-mode t)
 
-(require 'edit-server)
-(edit-server-start)
-
 (setq elscreen-display-tab 45)
 
-(require 'elscreen)
-;;(require 'elscreen-color-theme)
-(require 'elscreen-dired)
-(require 'elscreen-server)
+;; (require 'elscreen)
+;; ;;(require 'elscreen-color-theme)
+;; (require 'elscreen-dired)
+;; (require 'elscreen-server)
 
-(global-set-key (kbd "C-z C-z") 'elscreen-toggle)
+;; (global-set-key (kbd "C-z C-z") 'elscreen-toggle)
 
 ;; (require 'color-theme)
 ;; (color-theme-initialize)
@@ -77,15 +74,15 @@
 ;; File finding
 (global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
 
-(when (load "sml-modeline")    ;; use sml-modeline if available
-  (sml-mode 1))                 ;; show buffer pos in the mode line
+(when (require 'sml-modeline nil t)    ;; use sml-modeline if available
+  (sml-modeline-mode 1))                 ;; show buffer pos in the mode line
 
 (set-scroll-bar-mode 'right)
 
-(when (load "~/.emacs.d/nxhtml/autostart")
-  (require 'css-simple-completion)
-  (autoload 'css-color-mode "css-color" "" t)
-  (add-hook 'css-mode-hook 'css-color-mode-turn-on))
+;;(when (load "~/.emacs.d/nxhtml/autostart")
+;;  (require 'css-simple-completion)
+;;  (autoload 'css-color-mode "css-color" "" t)
+;;  (add-hook 'css-mode-hook 'css-color-mode-turn-on))
 
 
 
@@ -117,4 +114,13 @@
 (require 'midnight)
 (midnight-delay-set 'midnight-delay "4:30am")
 
+(require 'edit-server)
+(edit-server-start)
+
 (provide 'aaditya-packages)
+
+(when (load-file "~/.emacs.d/color-theme-blackboard.el")
+  (color-theme-blackboard))
+;;(when (load-file "~/.emacs.d/color-theme-wombat.el")
+;;  (color-theme-wombat))
+

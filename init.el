@@ -12,6 +12,8 @@
       (append (list "~/.emacs.d/elscreen-dired-0.1.0") load-path))
 (setq load-path
       (append (list "~/.emacs.d/elscreen-server-0.2.0") load-path))
+(setq load-path
+      (append (list "~/.emacs.d/el-get/ecb") load-path))
 
 (setq package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/")
 			       ("elpa" . "http://tromey.com/elpa/"))))
@@ -29,24 +31,14 @@
 	;;        :url "git://github.com/dimitri/el-get.git"
 	;;        :features el-get)
 
-        (:name org
-	       :type git
-	       :url "git://repo.or.cz/org-mode.git"
-	       :build ("make EMACS=/Users/aaditya/Applications/Emacs.app/Contents/MacOS/Emacs"))
-        (:name magit
-	       :type git
-	       :url "http://github.com/philjackson/magit.git"
-	       :info "."
-	       :build ("make EMACS=/Users/aaditya/Applications/Emacs.app/Contents/MacOS/Emacs"))
+        (:name magit)
         (:name github
                :type git
                :url "http://github.com/dudleyf/color-theme-github.git")
         (:name vibrant-ink
                :type git
                :url "http://github.com/mig/color-theme-vibrant-ink.git")
-        (:name smex
-               :type git
-               :url "http://github.com/nonsequitur/smex.git")
+        (:name smex)
         (:name ectags
                :type git
                :url "git://repo.or.cz/ectags.git")
@@ -59,9 +51,7 @@
         (:name git-blame
 	       :type http
 	       :url "http://github.com/tsgates/git-emacs/raw/master/git-blame.el")
-	(:name yasnippet
- 	       :type git-svn
- 	       :url "http://yasnippet.googlecode.com/svn/trunk/")
+	(:name yasnippet)
         (:name python-pep8
                :type git
                :url "git://gist.github.com/303273.git")
@@ -77,25 +67,13 @@
         (:name python-mode
                :type http
                :url "http://bazaar.launchpad.net/~python-mode-devs/python-mode/python-mode/download/head%3A/2%40fb98634b-d22b-0410-a57a-e996bee27b70%3Atrunk%252Fpython-mode%3Apython-mode.el/python-mode.el")
-        (:name pymacs
-               :type git
-               :url "http://github.com/pinard/Pymacs.git")
-        (:name ropemacs
-               :type http-tar
-               :options ("zxf")
-               :url "http://bitbucket.org/agr/ropemacs/get/tip.tar.gz")
+        (:name pymacs)
+        (:name ropemacs)
         (:name ipython
                :type http
                :url "http://ipython.scipy.org/dist/ipython.el")
-        (:name apel
-               :type http-tar
-               :options ("zxf")
-               :url "http://kanji.zinbun.kyoto-u.ac.jp/~tomo/lemi/dist/apel/apel-10.8.tar.gz")
-        (:name session
-               :type http-tar
-               :options ("zxf")
-               :url "http://downloads.sourceforge.net/project/emacs-session/session/2.2/session-2.2.tar.gz?r=http%3A%2F%2Fsourceforge.net%2Fprojects%2Femacs-session%2Ffiles%2F&ts=1287385055&use_mirror=softlayer"
-               :load "lisp/session.el")
+        (:name apel)
+        (:name session)
         ;; (:name elscreen
         ;;        :type http
         ;;        :url "ftp://ftp.morishima.net/pub/morishima.net/naoto/ElScreen/elscreen-1.4.6.tar.gz")
@@ -120,26 +98,27 @@
         (:name moz
                :type http
                :url "http://github.com/bard/mozrepl/raw/master/chrome/content/moz.el")
-        (:name sml-modeline
-               :type http
-               :url "http://www.emacswiki.org/emacs/download/sml-modeline.el")
-        (:name scratch
-               :type git
-               :url "http://github.com/ieure/scratch-el.git")
-        (:name pylookup
-               :type git
-               :url "http://github.com/tsgates/pylookup.git")
-        (:name auctex
-               :type cvs
-               :module "auctex"
-               :url ":pserver:anonymous@cvs.sv.gnu.org:/sources/auctex"
-               :build ("./autogen.sh" "./configure --with-emacs=/Users/aaditya/Applications/Emacs.app/Contents/MacOS/Emacs --with-lispdir . --with-texmf-dir=/Library/TeX/Root/texmf" "make")
-               :load  ("auctex.el" "preview/prv-emacs.el" "preview/preview.el" "preview/preview-latex.el")
-               :info "doc")
+        (:name sml-modeline)
+        (:name scratch)
+        (:name pylookup)
+        (:name auctex)
         )
       )
 
 (el-get)
+
+(require 'semantic)
+;;(global-ede-mode 1)
+(setq semantic-load-turn-everything-on t)
+(semantic-mode 1)
+(require 'cedet)
+(require 'ecb)
+
+(setq semantic-python-dependency-system-include-path
+      '("/Users/aaditya/work/id" "/Users/aaditya/work/id/src" "/Users/aaditya/work/id/src/id/vaitarna" "/Users/aaditya/.env/ep/lib/python2.6/site-packages" "/Users/aaditya/.env/ep/lib/python2.6" "/System/Library/Frameworks/Python.framework/Versions/2.6/lib/python2.6"))
+
+
+(require 'sml-modeline)
 
 (setq load-path (cons (expand-file-name "~/src/local/gnus/lisp") load-path))
 (require 'gnus-load)
@@ -158,8 +137,16 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(TeX-newline-function (quote newline-and-indent))
- '(blink-cursor-mode t)
  '(custom-enabled-themes (quote (tango-dark)))
+ '(ecb-eshell-auto-activate t)
+ '(ecb-key-map (quote ("C-z" (t "fh" ecb-history-filter) (t "fs" ecb-sources-filter) (t "fm" ecb-methods-filter) (t "fr" ecb-methods-filter-regexp) (t "ft" ecb-methods-filter-tagclass) (t "fc" ecb-methods-filter-current-type) (t "fp" ecb-methods-filter-protection) (t "fn" ecb-methods-filter-nofilter) (t "fl" ecb-methods-filter-delete-last) (t "ff" ecb-methods-filter-function) (t "p" ecb-nav-goto-previous) (t "n" ecb-nav-goto-next) (t "lc" ecb-change-layout) (t "lr" ecb-redraw-layout) (t "lw" ecb-toggle-ecb-windows) (t "lt" ecb-toggle-layout) (t "s" ecb-window-sync) (t "r" ecb-rebuild-methods-buffer) (t "a" ecb-toggle-auto-expand-tag-tree) (t "x" ecb-expand-methods-nodes) (t "h" ecb-show-help) (t "gl" ecb-goto-window-edit-last) (t "g1" ecb-goto-window-edit1) (t "g2" ecb-goto-window-edit2) (t "gc" ecb-goto-window-compilation) (t "gd" ecb-goto-window-directories) (t "gs" ecb-goto-window-sources) (t "gm" ecb-goto-window-methods) (t "gh" ecb-goto-window-history) (t "ga" ecb-goto-window-analyse) (t "gb" ecb-goto-window-speedbar) (t "md" ecb-maximize-window-directories) (t "ms" ecb-maximize-window-sources) (t "mm" ecb-maximize-window-methods) (t "mh" ecb-maximize-window-history) (t "ma" ecb-maximize-window-analyse) (t "mb" ecb-maximize-window-speedbar) (t "e" eshell) (t "o" ecb-toggle-scroll-other-window-scrolls-compile) (t "\\" ecb-toggle-compile-window) (t "/" ecb-toggle-compile-window-height) (t "," ecb-cycle-maximized-ecb-buffers) (t "." ecb-cycle-through-compilation-buffers))))
+ '(ecb-layout-name "leftright1")
+ '(ecb-layout-window-sizes (quote (("leftright1" (ecb-directories-buffer-name 0.1452991452991453 . 0.39436619718309857) (ecb-sources-buffer-name 0.1452991452991453 . 0.29577464788732394) (ecb-history-buffer-name 0.1452991452991453 . 0.29577464788732394) (ecb-methods-buffer-name 0.1282051282051282 . 0.9859154929577465)))))
+ '(ecb-methods-menu-sorter (lambda (entries) (let ((sorted (copy-list entries))) (sort sorted (quote string-lessp)))))
+ '(ecb-options-version "2.40")
+ '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
+ '(ecb-source-file-regexps (quote ((".*" ("\\(^\\(\\.\\|#\\)\\|\\(~$\\|\\.\\(elc\\|obj\\|o\\|class\\|lib\\|dll\\|a\\|so\\|cache\\|pyc\\)$\\)\\)") ("^\\.\\(emacs\\|gnus\\)$")))))
+ '(ecb-source-path (quote (("/Users/aaditya/work/id/src/id/vaitarna" "vaitarna") ("/Users/aaditya/work/id" "id") ("/Users/aaditya/work/id/src/id/vaitarna/vaitarna/templates" "templates") ("/Users/aaditya/work/id/src/id/vaitarna/vaitarna/public/js" "js") ("/Users/aaditya/work/id/src/id/vaitarna/vaitarna/public/css" "css") ("/Users/aaditya/work/id/src/id/vaitarna/vaitarna/controllers" "controllers") ("/" "/"))))
  '(egg-enable-tooltip t)
  '(elscreen-display-screen-number nil)
  '(elscreen-tab-display-control nil)
@@ -167,8 +154,9 @@
  '(eshell-modules-list (quote (eshell-alias eshell-banner eshell-basic eshell-cmpl eshell-dirs eshell-glob eshell-hist eshell-ls eshell-pred eshell-prompt eshell-rebind eshell-script eshell-smart eshell-term eshell-unix eshell-xtra)))
  '(ido-default-file-method (quote selected-window))
  '(ido-enable-regexp t)
- '(ipython-command "/Users/aaditya/src/id/vaitarna/pylons-shell")
+ '(ipython-command "/Users/aaditya/work/id/vaitarna/pylons-shell")
  '(ns-function-modifier (quote hyper))
+ '(ns-pop-up-frames nil)
  '(regex-tool-backend (quote perl))
  '(show-paren-mode t)
  '(show-paren-style (quote expression))
@@ -178,7 +166,8 @@
  '(transient-mark-mode nil)
  '(uniquify-buffer-name-style (quote post-forward-angle-brackets) nil (uniquify))
  '(uniquify-separator " | ")
- '(uniquify-trailing-separator-p t))
+ '(uniquify-trailing-separator-p t)
+ '(visible-bell t))
 
 (toggle-debug-on-error nil)
 (custom-set-faces
@@ -186,14 +175,16 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:stipple nil :background "#000" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Menlo"))))
+ '(default ((t (:stipple nil :background "#000" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Consolas"))))
  '(elscreen-tab-background-face ((t (:background "black" :weight bold :height 1.6))))
  '(elscreen-tab-current-screen-face ((t (:background "LightGoldenrod1" :foreground "black" :weight normal :height 1.1 :family "Geneva"))))
  '(elscreen-tab-other-screen-face ((t (:background "gray95" :foreground "black" :underline nil :height 1.1 :family "Geneva"))))
  '(ido-first-match ((t (:foreground "gold" :inverse-video nil :weight normal))))
  '(magit-diff-add ((t (:foreground "green"))))
  '(magit-item-highlight ((t (:background "gray20"))))
+ '(match ((t (:background "#0E2852"))))
  '(mumamo-background-chunk-major ((t nil)))
  '(mumamo-background-chunk-submode1 ((t nil)))
  '(mumamo-background-chunk-submode2 ((t (:background "gray20"))))
+ '(show-paren-match ((t (:background "#0D2B59"))))
  '(visible-mark-face ((t (:inverse-video t)))))
