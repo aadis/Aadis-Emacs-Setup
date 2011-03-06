@@ -1,26 +1,3 @@
-(require 'python-mode)
-
-(require 'pymacs)
-;;(pymacs-load "ropemacs" "rope-")
-(setq ropemacs-confirm-saving nil
-      ropemacs-guess-project t
-      ropemacs-enable-autoimport t
-      )
-
-(require 'ipython)
-;;(setq py-python-command-args '( "-colors" "Linux"))
-
-(autoload 'python-pylint "python-pylint")
-(autoload 'pylint "python-pylint")
-(autoload 'python-pep8 "python-pep8")
-(autoload 'pep8 "python-pep8")
-
-
-(setq ipython-completion-command-string
-      "print(';'.join(__IP.Completer.all_completions('%s'))) #PYTHON-MODE SILENT\n")
-
-(add-to-list 'load-path "~/.emacs.d/el-get/flymake-python")
-
 ;; (when (load "flymake" t)
 ;;   (defun flymake-pylint-init ()
 ;;     (let* ((temp-file (flymake-init-create-temp-buffer-copy
@@ -158,23 +135,5 @@ displayed in the minibuffer (rather than having to mouse over
 it)"
   (set (make-local-variable 'post-command-hook)
        (cons 'show-fly-err-at-point post-command-hook)))
-
-;; load pylookup when compile time
-(setq pylookup-dir "/Users/aaditya/Documents/references")
-
-(eval-when-compile (require 'pylookup))
-
-;; set executable file and db file
-;;(setq pylookup-program (concat pylookup-dir "/pylookup.py"))
-(setq pylookup-db-file (concat pylookup-dir "/pylookup.db"))
-
-;; to speedup, just load it on demand
-(autoload 'pylookup-lookup "pylookup"
-  "Lookup SEARCH-TERM in the Python HTML indexes." t)
-
-(autoload 'pylookup-update "pylookup"
-  "Run pylookup-update and create the database at `pylookup-db-file'." t)
-
-(global-set-key "\C-ch" 'pylookup-lookup)
 
 (provide 'aaditya-python)
