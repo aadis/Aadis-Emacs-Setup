@@ -44,8 +44,8 @@
 (require 'midnight)
 (midnight-delay-set 'midnight-delay "4:30am")
 
-(require 'edit-server)
-(edit-server-start)
+;;(require 'edit-server)
+;;(edit-server-start)
 
 ;;(when (load-file "~/.emacs.d/color-theme-blackboard.el")
 ;;  (color-theme-blackboard))

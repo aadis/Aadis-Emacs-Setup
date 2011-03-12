@@ -1,7 +1,8 @@
 ;;setup some initial load paths
 (add-to-list 'load-path "~/.emacs.d/")
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
-(add-to-list 'load-path "~/.emacs.d/color-theme-6.6.0")
+(add-to-list 'load-path "~/.emacs.d/el-get/ecb/ecb2")
+(add-to-list 'load-path "~/.emacs.d/el-get/ecb/cedet/semantic")
 
 ;;our package sources
 (setq package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/")
@@ -53,6 +54,70 @@
                         (autoload 'pylookup-update "pylookup"
                           "Run pylookup-update and create the database at `pylookup-db-file'." t)
                         (global-set-key "\C-ch" 'pylookup-lookup)))
+        (:name escreen
+               :after (lambda()
+                        (load "escreen")
+                        (escreen-install)
+                        (setq escreen-prefix-char "") ;; http://www.macs.hw.ac.uk/~hwloidl/cool-el.html
+                        (global-set-key (kbd escreen-prefix-char) 'escreen-prefix)
+                        ;; add C- l to list screens with emphase for current one
+                        (defun escreen-get-active-screen-numbers-with-emphasis ()
+                          "what the name says"
+                          (interactive)
+                          (let ((escreens (escreen-get-active-screen-numbers))
+                                (emphased ""))
+                            
+                            (dolist (s escreens)
+                              (setq emphased
+                                    (concat emphased (if (= escreen-current-screen-number s)
+                                                         (propertize (number-to-string s)
+                                                                     ;;'face 'custom-variable-tag) " ")
+                                                                     'face 'info-title-3)
+                                                       ;;'face 'font-lock-warning-face)
+                                                       ;;'face 'secondary-selection)
+                                                       (number-to-string s))
+                                            " ")))
+                            (message "escreen: active screens: %s" emphased)))
+
+                        (global-set-key (kbd "C-\\ l") 'escreen-get-active-screen-numbers-with-emphasis)
+
+                        (defun escreen-goto-last-screen-dim ()
+                          (interactive)
+                          (escreen-goto-last-screen)
+                          (escreen-get-active-screen-numbers-with-emphasis))
+
+                        (defun escreen-goto-prev-screen-dim (&optional n)
+                          (interactive "p")
+                          (escreen-goto-prev-screen n)
+                          (escreen-get-active-screen-numbers-with-emphasis))
+
+                        (defun escreen-goto-next-screen-dim (&optional n)
+                          (interactive "p")
+                          (escreen-goto-next-screen n)
+                          (escreen-get-active-screen-numbers-with-emphasis))
+
+                        (define-key escreen-map escreen-prefix-char 'escreen-goto-last-screen-dim)
+
+                        (defun escreen-create-screen-dim ()
+                          (interactive)
+                          (escreen-create-screen)
+                          (escreen-get-active-screen-numbers-with-emphasis))
+
+                        (defun escreen-kill-screen-dim ()
+                          (interactive)
+                          (escreen-kill-screen)
+                          (escreen-get-active-screen-numbers-with-emphasis))
+
+                        (add-hook 'escreen-goto-screen-hook 'escreen-get-active-screen-numbers-with-emphasis)
+
+                        (define-key escreen-map "c" 'escreen-create-screen-dim)
+                        (define-key escreen-map "k" 'escreen-kill-screen-dim)
+
+                        ;; (global-set-key (kbd "C-]") 'escreen-goto-next-screen)
+                        ;; (keyboard-translate ?C-[ ?H-[)
+                        ;; (global-set-key (kbd "H-[") 'escreen-goto-prev-screen)
+                        (global-set-key (kbd "H-]") 'escreen-goto-next-screen-dim)
+                        (global-set-key (kbd "H-[") 'escreen-goto-prev-screen-dim)))
         (:name scratch)
         ;;(:name auctex)
         (:name paredit)
@@ -68,8 +133,11 @@
                          ;;(global-ede-mode 1)
                          (setq semantic-load-turn-everything-on t)
                          (semantic-mode 1)
+                         (global-semanticdb-minor-mode 1)
+                         (global-semantic-stickyfunc-mode 1)
+                         (global-semantic-highlight-func-mode 1)
                          (require 'cedet)
-                         (load "~/.emacs.d/el-get/ecb/ecb.elc")
+                         (load "~/.emacs.d/el-get/ecb/ecb.el")
                          (require 'ecb))))
 	(:name js2-mode
 	       :after (lambda ()
@@ -193,7 +261,7 @@
  '(js2-auto-indent-p t)
  '(js2-bounce-indent-p nil)
  '(js2-cleanup-whitespace t)
- '(js2-dynamic-idle-timer-adjust 10000)
+ '(js2-dynamic-idle-timer-adjust 25000)
  '(js2-global-externs (quote ("YUI")))
  '(js2-highlight-level 3)
  '(markdown-italic-underscore t)
@@ -219,10 +287,11 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "#000" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant italic :weight normal :height 120 :width normal :foundry "apple" :family "Everson_Mono"))))
+ '(default ((t (:inherit nil :stipple nil :background "#000" :foreground "white" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Everson Mono"))))
  '(elscreen-tab-background-face ((t (:background "black" :weight bold :height 1.6))))
  '(elscreen-tab-current-screen-face ((t (:background "LightGoldenrod1" :foreground "black" :weight normal :height 1.1 :family "Geneva"))))
  '(elscreen-tab-other-screen-face ((t (:background "gray95" :foreground "black" :underline nil :height 1.1 :family "Geneva"))))
+ '(font-lock-comment-face ((t (:foreground "#73d216" :slant italic :weight normal :height 1.1 :family "Candara"))))
  '(ido-first-match ((t (:foreground "gold" :inverse-video nil :weight normal))))
  '(magit-diff-add ((t (:foreground "green"))))
  '(magit-item-highlight ((t (:background "gray20"))))
@@ -231,4 +300,5 @@
  '(mumamo-background-chunk-submode1 ((t nil)))
  '(mumamo-background-chunk-submode2 ((t (:background "gray20"))))
  '(show-paren-match ((t (:background "#0D2B59"))))
+ '(sml-modeline-end-face ((t (:inherit match :background "#509af0"))))
  '(visible-mark-face ((t (:inverse-video t)))))
