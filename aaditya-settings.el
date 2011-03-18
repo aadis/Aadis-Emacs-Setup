@@ -5,6 +5,7 @@
 ;; File finding
 (global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
 
+(setq vc-handled-backends nil)
 
 ;; Use regex searches by default.
 (global-set-key "\C-s" 'isearch-forward-regexp)
