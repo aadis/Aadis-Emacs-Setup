@@ -125,7 +125,7 @@
  nxml-slash-auto-complete-flag t
  transient-mark-mode nil
  tramp-default-method "rsync"
- frame-background-mode 'dark
+ frame-background-mode 'light
  uniquify-buffer-name-style 'forward)
 
 ;;rcirc

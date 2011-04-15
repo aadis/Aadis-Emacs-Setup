@@ -20,6 +20,7 @@
 (setq el-get-sources
       '(
 	(:name yaml-mode)
+	(:name color-theme)
 	(:name rainbow-mode)
 	(:name asciidoc)
         (:name regex-tool)
@@ -33,6 +34,7 @@
                               python-shell-completion-string-code "';  '.join(__IP.complete('''%s'''))\n")))
         (:name pymacs
                :after (lambda () 
+                        (setq pymacs-python-command "/Users/aaditya/.env/ep/bin/python")
                         (require 'pymacs)))
         (:name ropemacs
                :after (lambda () 
@@ -59,8 +61,9 @@
                :after (lambda()
                         (load "escreen")
                         (escreen-install)
-                        (setq escreen-prefix-char "") ;; http://www.macs.hw.ac.uk/~hwloidl/cool-el.html
-                        (global-set-key (kbd escreen-prefix-char) 'escreen-prefix)
+                        ;; (setq escreen-prefix-char "") ;; http://www.macs.hw.ac.uk/~hwloidl/cool-el.html
+                        ;; (global-set-key (kbd escreen-prefix-char) 'escreen-prefix)
+
                         ;; add C- l to list screens with emphase for current one
                         (defun escreen-get-active-screen-numbers-with-emphasis ()
                           "what the name says"
@@ -202,7 +205,10 @@
         )
       )
 
-(el-get 'sync)
+(el-get)
+
+(when (require 'color-theme-sanityinc-solarized)
+  (color-theme-sanityinc-solarized-light))
 
 (setq semantic-python-dependency-system-include-path
       '("/Users/aaditya/work/id" "/Users/aaditya/work/id/src" "/Users/aaditya/work/id/src/id/vaitarna" "/Users/aaditya/.env/ep/lib/python2.6/site-packages" "/Users/aaditya/.env/ep/lib/python2.6" "/System/Library/Frameworks/Python.framework/Versions/2.6/lib/python2.6"))
@@ -227,7 +233,7 @@
  ;; If there is more than one, they won't work right.
  '(TeX-newline-function (quote newline-and-indent))
  '(ansi-color-names-vector ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(custom-enabled-themes (quote (tango-dark)))
+ '(compilation-window-height 20)
  '(custom-safe-themes (quote ("440039bfdb4b34cc700a88690c1a5e5a70db30d8" default)))
  '(ecb-eshell-auto-activate t)
  '(ecb-key-map (quote ("C-z" (t "fh" ecb-history-filter) (t "fs" ecb-sources-filter) (t "fm" ecb-methods-filter) (t "fr" ecb-methods-filter-regexp) (t "ft" ecb-methods-filter-tagclass) (t "fc" ecb-methods-filter-current-type) (t "fp" ecb-methods-filter-protection) (t "fn" ecb-methods-filter-nofilter) (t "fl" ecb-methods-filter-delete-last) (t "ff" ecb-methods-filter-function) (t "p" ecb-nav-goto-previous) (t "n" ecb-nav-goto-next) (t "lc" ecb-change-layout) (t "lr" ecb-redraw-layout) (t "lw" ecb-toggle-ecb-windows) (t "lt" ecb-toggle-layout) (t "s" ecb-window-sync) (t "r" ecb-rebuild-methods-buffer) (t "a" ecb-toggle-auto-expand-tag-tree) (t "x" ecb-expand-methods-nodes) (t "h" ecb-show-help) (t "gl" ecb-goto-window-edit-last) (t "g1" ecb-goto-window-edit1) (t "g2" ecb-goto-window-edit2) (t "gc" ecb-goto-window-compilation) (t "gd" ecb-goto-window-directories) (t "gs" ecb-goto-window-sources) (t "gm" ecb-goto-window-methods) (t "gh" ecb-goto-window-history) (t "ga" ecb-goto-window-analyse) (t "gb" ecb-goto-window-speedbar) (t "md" ecb-maximize-window-directories) (t "ms" ecb-maximize-window-sources) (t "mm" ecb-maximize-window-methods) (t "mh" ecb-maximize-window-history) (t "ma" ecb-maximize-window-analyse) (t "mb" ecb-maximize-window-speedbar) (t "e" eshell) (t "o" ecb-toggle-scroll-other-window-scrolls-compile) (t "\\" ecb-toggle-compile-window) (t "/" ecb-toggle-compile-window-height) (t "," ecb-cycle-maximized-ecb-buffers) (t "." ecb-cycle-through-compilation-buffers))))
@@ -271,7 +277,8 @@
  '(uniquify-buffer-name-style (quote post-forward-angle-brackets) nil (uniquify))
  '(uniquify-separator " | ")
  '(uniquify-trailing-separator-p t)
- '(visible-bell t))
+ '(visible-bell t)
+ '(yas/trigger-key "<C-tab>"))
 
 (toggle-debug-on-error nil)
 (custom-set-faces
@@ -282,14 +289,12 @@
  '(elscreen-tab-background-face ((t (:background "black" :weight bold :height 1.6))) t)
  '(elscreen-tab-current-screen-face ((t (:background "LightGoldenrod1" :foreground "black" :weight normal :height 1.1 :family "Geneva"))) t)
  '(elscreen-tab-other-screen-face ((t (:background "gray95" :foreground "black" :underline nil :height 1.1 :family "Geneva"))) t)
- '(font-lock-comment-face ((t (:foreground "#73d216" :slant italic :weight normal :height 1.1 :family "Candara"))))
- '(ido-first-match ((t (:foreground "gold" :inverse-video nil :weight normal))))
- '(magit-diff-add ((t (:foreground "green"))))
- '(magit-item-highlight ((t (:background "gray20"))))
- '(match ((t (:background "#0E2852"))))
- '(mumamo-background-chunk-major ((t nil)) t)
- '(mumamo-background-chunk-submode1 ((t nil)) t)
- '(mumamo-background-chunk-submode2 ((t (:background "gray20"))) t)
- '(show-paren-match ((t (:background "#0D2B59"))))
- '(sml-modeline-end-face ((t (:inherit match :background "#509af0"))))
- '(visible-mark-face ((t (:inverse-video t)))))
+;; '(ido-first-match ((t (:foreground "gold" :inverse-video nil :weight normal))))
+;; '(magit-diff-add ((t (:foreground "green"))))
+;; '(match ((t (:background "#0E2852"))))
+ ;; '(mumamo-background-chunk-major ((t nil)))
+ ;; '(mumamo-background-chunk-submode1 ((t nil)))
+ ;; '(mumamo-background-chunk-submode2 ((t (:background "#115511"))))
+;; '(show-paren-match ((t (:background "#0D2B59"))))
+;; '(visible-mark-face ((t (:inverse-video t))))
+ )
