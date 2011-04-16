@@ -226,6 +226,10 @@
 (when (fboundp 'aaditya/set-screen)
   (aaditya/set-screen))
 
+;;use solarized color theme
+(when (require 'color-theme-sanityinc-solarized)
+  (color-theme-sanityinc-solarized-light))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -281,6 +285,7 @@
  '(yas/trigger-key "<C-tab>"))
 
 (toggle-debug-on-error nil)
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
