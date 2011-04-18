@@ -193,6 +193,9 @@
 	       :after (lambda () 
                         (require 'visible-mark)
                         (global-visible-mark-mode t)))
+        (:name eproject
+               :type git
+               :url "https://github.com/jrockway/eproject.git")
         (:name moz
                :type http
                :url "http://github.com/bard/mozrepl/raw/master/chrome/content/moz.el"
@@ -206,9 +209,6 @@
       )
 
 (el-get)
-
-(when (require 'color-theme-sanityinc-solarized)
-  (color-theme-sanityinc-solarized-light))
 
 (setq semantic-python-dependency-system-include-path
       '("/Users/aaditya/work/id" "/Users/aaditya/work/id/src" "/Users/aaditya/work/id/src/id/vaitarna" "/Users/aaditya/.env/ep/lib/python2.6/site-packages" "/Users/aaditya/.env/ep/lib/python2.6" "/System/Library/Frameworks/Python.framework/Versions/2.6/lib/python2.6"))
@@ -242,7 +242,7 @@
  '(ecb-eshell-auto-activate t)
  '(ecb-key-map (quote ("C-z" (t "fh" ecb-history-filter) (t "fs" ecb-sources-filter) (t "fm" ecb-methods-filter) (t "fr" ecb-methods-filter-regexp) (t "ft" ecb-methods-filter-tagclass) (t "fc" ecb-methods-filter-current-type) (t "fp" ecb-methods-filter-protection) (t "fn" ecb-methods-filter-nofilter) (t "fl" ecb-methods-filter-delete-last) (t "ff" ecb-methods-filter-function) (t "p" ecb-nav-goto-previous) (t "n" ecb-nav-goto-next) (t "lc" ecb-change-layout) (t "lr" ecb-redraw-layout) (t "lw" ecb-toggle-ecb-windows) (t "lt" ecb-toggle-layout) (t "s" ecb-window-sync) (t "r" ecb-rebuild-methods-buffer) (t "a" ecb-toggle-auto-expand-tag-tree) (t "x" ecb-expand-methods-nodes) (t "h" ecb-show-help) (t "gl" ecb-goto-window-edit-last) (t "g1" ecb-goto-window-edit1) (t "g2" ecb-goto-window-edit2) (t "gc" ecb-goto-window-compilation) (t "gd" ecb-goto-window-directories) (t "gs" ecb-goto-window-sources) (t "gm" ecb-goto-window-methods) (t "gh" ecb-goto-window-history) (t "ga" ecb-goto-window-analyse) (t "gb" ecb-goto-window-speedbar) (t "md" ecb-maximize-window-directories) (t "ms" ecb-maximize-window-sources) (t "mm" ecb-maximize-window-methods) (t "mh" ecb-maximize-window-history) (t "ma" ecb-maximize-window-analyse) (t "mb" ecb-maximize-window-speedbar) (t "e" eshell) (t "o" ecb-toggle-scroll-other-window-scrolls-compile) (t "\\" ecb-toggle-compile-window) (t "/" ecb-toggle-compile-window-height) (t "," ecb-cycle-maximized-ecb-buffers) (t "." ecb-cycle-through-compilation-buffers))))
  '(ecb-layout-name "aadityaright2")
- '(ecb-layout-window-sizes (quote (("aadityaright2" (ecb-methods-buffer-name 0.1581196581196581 . 0.4868421052631579) (ecb-history-buffer-name 0.1581196581196581 . 0.5)) ("aadityaright1" (ecb-methods-buffer-name 0.14957264957264957 . 0.4868421052631579) (ecb-history-buffer-name 0.14957264957264957 . 0.25) (ecb-speedbar-buffer-name 0.14957264957264957 . 0.25)) ("leftright1" (ecb-directories-buffer-name 0.1452991452991453 . 0.39436619718309857) (ecb-sources-buffer-name 0.1452991452991453 . 0.29577464788732394) (ecb-history-buffer-name 0.1452991452991453 . 0.29577464788732394) (ecb-methods-buffer-name 0.1282051282051282 . 0.9859154929577465)))))
+ '(ecb-layout-window-sizes (quote (("aadityaright2" (ecb-methods-buffer-name 0.23504273504273504 . 0.4868421052631579) (ecb-history-buffer-name 0.23504273504273504 . 0.5)) ("aadityaright1" (ecb-methods-buffer-name 0.14957264957264957 . 0.4868421052631579) (ecb-history-buffer-name 0.14957264957264957 . 0.25) (ecb-speedbar-buffer-name 0.14957264957264957 . 0.25)) ("leftright1" (ecb-directories-buffer-name 0.1452991452991453 . 0.39436619718309857) (ecb-sources-buffer-name 0.1452991452991453 . 0.29577464788732394) (ecb-history-buffer-name 0.1452991452991453 . 0.29577464788732394) (ecb-methods-buffer-name 0.1282051282051282 . 0.9859154929577465)))))
  '(ecb-methods-menu-sorter (lambda (entries) (let ((sorted (copy-list entries))) (sort sorted (quote string-lessp)))))
  '(ecb-options-version "2.40")
  '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
@@ -294,12 +294,4 @@
  '(elscreen-tab-background-face ((t (:background "black" :weight bold :height 1.6))) t)
  '(elscreen-tab-current-screen-face ((t (:background "LightGoldenrod1" :foreground "black" :weight normal :height 1.1 :family "Geneva"))) t)
  '(elscreen-tab-other-screen-face ((t (:background "gray95" :foreground "black" :underline nil :height 1.1 :family "Geneva"))) t)
-;; '(ido-first-match ((t (:foreground "gold" :inverse-video nil :weight normal))))
-;; '(magit-diff-add ((t (:foreground "green"))))
-;; '(match ((t (:background "#0E2852"))))
- ;; '(mumamo-background-chunk-major ((t nil)))
- ;; '(mumamo-background-chunk-submode1 ((t nil)))
- ;; '(mumamo-background-chunk-submode2 ((t (:background "#115511"))))
-;; '(show-paren-match ((t (:background "#0D2B59"))))
-;; '(visible-mark-face ((t (:inverse-video t))))
- )
+ '(font-lock-comment-face ((t (:foreground "#708183" :slant italic :height 110 :family "menlo")))))
