@@ -80,7 +80,8 @@
 (recentf-mode 1)
 (setq recentf-max-saved-items 500)
 (setq recentf-max-menu-items 60)
-(global-set-key [(meta f12)] 'recentf-open-files)
+(global-set-key [(f5)] 'recompile)
+(global-set-key [(control f5)] 'compile)
 
 (defun xsteve-ido-choose-from-recentf ()
   "Use ido to select a recently opened file from the `recentf-list'"
@@ -93,7 +94,7 @@
                                   recentf-list)
                           nil t))))
 
-(global-set-key [(meta f11)] 'xsteve-ido-choose-from-recentf)
+(global-set-key [(f6)] 'xsteve-ido-choose-from-recentf)
 
 ;;settings
 (setq
@@ -154,7 +155,7 @@
            (set-window-start w2 s1))))
   (other-window 1))
 
-(global-set-key (kbd "C-c s") 'swap-windows)
+(global-set-key [(f7)] 'swap-windows)
 
 
 

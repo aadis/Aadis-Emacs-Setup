@@ -55,7 +55,7 @@
   (require 'eproject-extras)
   (define-project-type pylons (generic)
     (look-for "development.ini")
-    :relevant-files ("\\.py$" "\\.js$" "\\.html$" "\\.mako$" "\\.css$" "\\.json$" "\\.xml$")
+    :relevant-files ("\\.py$" "\\.js$" "\\.html$" "\\.mako$" "\\.css$" "\\.json$" "\\.xml$" "\\.properties$")
     :irrelevant-files ("public/lib" "public/components" "^gallery-" "^yui2-"))
 )
 
