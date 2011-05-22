@@ -5,9 +5,11 @@
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 (add-to-list 'load-path "~/.emacs.d/el-get/ecb/ecb2")
 (add-to-list 'load-path "~/.emacs.d/el-get/ecb/cedet/semantic")
+(add-to-list 'load-path "~/.emacs.d/el-get/color-theme")
 
 ;;our package sources
 (setq package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/")
+                               ("marmalade" . "http://marmalade-repo.org/packages/")
 			       ("elpa" . "http://tromey.com/elpa/"))))
 (require 'package)
 (package-initialize)
@@ -16,14 +18,20 @@
 ;;ECB still depends on this
 (setq stack-trace-on-error nil)
 
+;;use solarized color theme
+(require 'color-theme)
+(when (require 'color-theme-sanityinc-solarized)
+  (color-theme-sanityinc-solarized-light))
+
+
+
 ;;all the packages we want to setup
 (setq el-get-sources
       '(
+        (:name bbdb)
 	(:name yaml-mode)
 	(:name color-theme)
 	(:name rainbow-mode)
-	(:name asciidoc)
-        (:name regex-tool)
         (:name python
                :after (lambda () (require 'python)
                         (setq python-shell-interpreter "ipython"
@@ -34,17 +42,13 @@
                               python-shell-completion-string-code "';  '.join(__IP.complete('''%s'''))\n")))
         (:name pymacs
                :after (lambda () 
-                        (setq pymacs-python-command "/Users/aaditya/.env/ep/bin/python")
+                        (setq pymacs-python-command (expand-file-name "~/.env/ep/bin/python"))
                         (require 'pymacs)))
         (:name ropemacs
                :after (lambda () 
                         (setq ropemacs-confirm-saving nil
                               ropemacs-guess-project t
                               ropemacs-enable-autoimport t)))
-        ;; (:name ipython
-        ;;        :after (lambda () (require 'ipython)
-        ;;                 (setq ipython-completion-command-string
-        ;;                       "print(';'.join(__IP.Completer.all_completions('%s'))) #PYTHON-MODE SILENT\n")))
         (:name pylookup
                :after (lambda ()
                         (setq pylookup-dir "/Users/aaditya/Documents")
@@ -57,80 +61,15 @@
                         (autoload 'pylookup-update "pylookup"
                           "Run pylookup-update and create the database at `pylookup-db-file'." t)
                         (global-set-key "\C-ch" 'pylookup-lookup)))
-        (:name escreen
-               :after (lambda()
-                        (load "escreen")
-                        (escreen-install)
-                        ;; (setq escreen-prefix-char "") ;; http://www.macs.hw.ac.uk/~hwloidl/cool-el.html
-                        ;; (global-set-key (kbd escreen-prefix-char) 'escreen-prefix)
-
-                        ;; add C- l to list screens with emphase for current one
-                        (defun escreen-get-active-screen-numbers-with-emphasis ()
-                          "what the name says"
-                          (interactive)
-                          (let ((escreens (escreen-get-active-screen-numbers))
-                                (emphased ""))
-                            
-                            (dolist (s escreens)
-                              (setq emphased
-                                    (concat emphased (if (= escreen-current-screen-number s)
-                                                         (propertize (number-to-string s)
-                                                                     ;;'face 'custom-variable-tag) " ")
-                                                                     'face 'info-title-3)
-                                                       ;;'face 'font-lock-warning-face)
-                                                       ;;'face 'secondary-selection)
-                                                       (number-to-string s))
-                                            " ")))
-                            (message "escreen: active screens: %s" emphased)))
-
-                        (global-set-key (kbd "C-\\ l") 'escreen-get-active-screen-numbers-with-emphasis)
-
-                        (defun escreen-goto-last-screen-dim ()
-                          (interactive)
-                          (escreen-goto-last-screen)
-                          (escreen-get-active-screen-numbers-with-emphasis))
-
-                        (defun escreen-goto-prev-screen-dim (&optional n)
-                          (interactive "p")
-                          (escreen-goto-prev-screen n)
-                          (escreen-get-active-screen-numbers-with-emphasis))
-
-                        (defun escreen-goto-next-screen-dim (&optional n)
-                          (interactive "p")
-                          (escreen-goto-next-screen n)
-                          (escreen-get-active-screen-numbers-with-emphasis))
-
-                        (define-key escreen-map escreen-prefix-char 'escreen-goto-last-screen-dim)
-
-                        (defun escreen-create-screen-dim ()
-                          (interactive)
-                          (escreen-create-screen)
-                          (escreen-get-active-screen-numbers-with-emphasis))
-
-                        (defun escreen-kill-screen-dim ()
-                          (interactive)
-                          (escreen-kill-screen)
-                          (escreen-get-active-screen-numbers-with-emphasis))
-
-                        (add-hook 'escreen-goto-screen-hook 'escreen-get-active-screen-numbers-with-emphasis)
-
-                        (define-key escreen-map "c" 'escreen-create-screen-dim)
-                        (define-key escreen-map "k" 'escreen-kill-screen-dim)
-
-                        ;; (global-set-key (kbd "C-]") 'escreen-goto-next-screen)
-                        ;; (keyboard-translate ?C-[ ?H-[)
-                        ;; (global-set-key (kbd "H-[") 'escreen-goto-prev-screen)
-                        (global-set-key (kbd "H-]") 'escreen-goto-next-screen-dim)
-                        (global-set-key (kbd "H-[") 'escreen-goto-prev-screen-dim)))
         (:name scratch)
         ;;(:name auctex)
-        (:name paredit)
-        (:name quack)
-	(:name geiser
-               :after (lambda () 
-                        (require 'geiser-install)
-                        (require 'quack)
-                        (require 'paredit)))
+        ;;(:name paredit)
+        ;;(:name quack)
+	;; (:name geiser
+        ;;        :after (lambda () 
+        ;;                 (require 'geiser-install)
+        ;;                 (require 'quack)
+        ;;                 (require 'paredit)))
 	(:name ecb
 	       :after ((lambda ()
                          (require 'semantic)
@@ -171,9 +110,9 @@
 	       :after (lambda () 
                         (require 'session)
                         (add-hook 'after-init-hook 'session-initialize)))
-        (:name ectags
-               :type git
-               :url "git://repo.or.cz/ectags.git")
+        ;; (:name ectags
+        ;;        :type git
+        ;;        :url "git://repo.or.cz/ectags.git")
         (:name python-pep8
                :type git
                :url "git://gist.github.com/303273.git"
@@ -214,8 +153,9 @@
       '("/Users/aaditya/work/id" "/Users/aaditya/work/id/src" "/Users/aaditya/work/id/src/id/vaitarna" "/Users/aaditya/.env/ep/lib/python2.6/site-packages" "/Users/aaditya/.env/ep/lib/python2.6" "/System/Library/Frameworks/Python.framework/Versions/2.6/lib/python2.6"))
 
 
-;; (setq load-path (cons (expand-file-name "~/src/local/gnus/lisp") load-path))
-;; (require 'gnus-load)
+(setq load-path (cons (expand-file-name "~/src/local/gnus/lisp") load-path))
+(require 'gnus-load)
+
 (require 'info)
 (add-to-list 'Info-default-directory-list (expand-file-name "~/src/local/gnus/texi"))
 
@@ -226,10 +166,6 @@
 (when (fboundp 'aaditya/set-screen)
   (aaditya/set-screen))
 
-;;use solarized color theme
-(when (require 'color-theme-sanityinc-solarized)
-  (color-theme-sanityinc-solarized-light))
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -237,17 +173,28 @@
  ;; If there is more than one, they won't work right.
  '(TeX-newline-function (quote newline-and-indent))
  '(ansi-color-names-vector ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
+ '(bbdb-display-layout-alist (quote ((one-line (order phones mail-alias net notes) (name-end . 50) (toggle . t)) (multi-line (omit creation-date timestamp) (toggle . t)) (pop-up-multi-line) (full-multi-line))))
+ '(bbdb-pop-up-target-columns 25)
+ '(bbdb-pop-up-target-lines 7)
  '(compilation-window-height 20)
  '(custom-safe-themes (quote ("440039bfdb4b34cc700a88690c1a5e5a70db30d8" default)))
+ '(ecb-compile-window-height 8)
+ '(ecb-compile-window-prevent-shrink-below-height nil)
+ '(ecb-compile-window-temporally-enlarge (quote both))
+ '(ecb-compile-window-width (quote edit-window))
  '(ecb-eshell-auto-activate t)
  '(ecb-key-map (quote ("C-z" (t "fh" ecb-history-filter) (t "fs" ecb-sources-filter) (t "fm" ecb-methods-filter) (t "fr" ecb-methods-filter-regexp) (t "ft" ecb-methods-filter-tagclass) (t "fc" ecb-methods-filter-current-type) (t "fp" ecb-methods-filter-protection) (t "fn" ecb-methods-filter-nofilter) (t "fl" ecb-methods-filter-delete-last) (t "ff" ecb-methods-filter-function) (t "p" ecb-nav-goto-previous) (t "n" ecb-nav-goto-next) (t "lc" ecb-change-layout) (t "lr" ecb-redraw-layout) (t "lw" ecb-toggle-ecb-windows) (t "lt" ecb-toggle-layout) (t "s" ecb-window-sync) (t "r" ecb-rebuild-methods-buffer) (t "a" ecb-toggle-auto-expand-tag-tree) (t "x" ecb-expand-methods-nodes) (t "h" ecb-show-help) (t "gl" ecb-goto-window-edit-last) (t "g1" ecb-goto-window-edit1) (t "g2" ecb-goto-window-edit2) (t "gc" ecb-goto-window-compilation) (t "gd" ecb-goto-window-directories) (t "gs" ecb-goto-window-sources) (t "gm" ecb-goto-window-methods) (t "gh" ecb-goto-window-history) (t "ga" ecb-goto-window-analyse) (t "gb" ecb-goto-window-speedbar) (t "md" ecb-maximize-window-directories) (t "ms" ecb-maximize-window-sources) (t "mm" ecb-maximize-window-methods) (t "mh" ecb-maximize-window-history) (t "ma" ecb-maximize-window-analyse) (t "mb" ecb-maximize-window-speedbar) (t "e" eshell) (t "o" ecb-toggle-scroll-other-window-scrolls-compile) (t "\\" ecb-toggle-compile-window) (t "/" ecb-toggle-compile-window-height) (t "," ecb-cycle-maximized-ecb-buffers) (t "." ecb-cycle-through-compilation-buffers))))
+ '(ecb-layout-always-operate-in-edit-window (quote (switch-to-buffer)))
  '(ecb-layout-name "aadityaright2")
  '(ecb-layout-window-sizes (quote (("aadityaright2" (ecb-methods-buffer-name 0.23504273504273504 . 0.4868421052631579) (ecb-history-buffer-name 0.23504273504273504 . 0.5)) ("aadityaright1" (ecb-methods-buffer-name 0.14957264957264957 . 0.4868421052631579) (ecb-history-buffer-name 0.14957264957264957 . 0.25) (ecb-speedbar-buffer-name 0.14957264957264957 . 0.25)) ("leftright1" (ecb-directories-buffer-name 0.1452991452991453 . 0.39436619718309857) (ecb-sources-buffer-name 0.1452991452991453 . 0.29577464788732394) (ecb-history-buffer-name 0.1452991452991453 . 0.29577464788732394) (ecb-methods-buffer-name 0.1282051282051282 . 0.9859154929577465)))))
  '(ecb-methods-menu-sorter (lambda (entries) (let ((sorted (copy-list entries))) (sort sorted (quote string-lessp)))))
+ '(ecb-new-ecb-frame t)
  '(ecb-options-version "2.40")
  '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
  '(ecb-source-file-regexps (quote ((".*" ("\\(^\\(\\.\\|#\\)\\|\\(~$\\|\\.\\(elc\\|obj\\|o\\|class\\|lib\\|dll\\|a\\|so\\|cache\\|pyc\\)$\\)\\)") ("^\\.\\(emacs\\|gnus\\)$")))))
- '(ecb-source-path (quote (("/Users/aaditya/work/id/src/id/vaitarna" "vaitarna") ("/Users/aaditya/work/id" "id") ("/Users/aaditya/work/id/src/id/vaitarna/vaitarna/templates" "templates") ("/Users/aaditya/work/id/src/id/vaitarna/vaitarna/public/js" "js") ("/Users/aaditya/work/id/src/id/vaitarna/vaitarna/public/css" "css") ("/Users/aaditya/work/id/src/id/vaitarna/vaitarna/controllers" "controllers") ("/" "/"))))
+ '(ecb-source-path (quote (("/Users/aaditya/work/id/src/id/vaitarna" "vaitarna") ("/Users/aaditya/work/id" "id") ("/Users/aaditya/work/id/src/id/vaitarna/vaitarna/templates" "templates") ("/Users/aaditya/work/id/src/id/vaitarna/vaitarna/public/js" "js") ("/Users/aaditya/work/id/src/id/vaitarna/vaitarna/public/css" "css") ("/Users/aaditya/work/id/src/id/vaitarna/vaitarna/controllers" "controllers") ("/" "/") ("/Users/aaditya" "HOME"))))
+ '(ecb-tree-indent 2)
+ '(ecb-vc-enable-support nil)
  '(egg-enable-tooltip t)
  '(elscreen-display-screen-number nil)
  '(elscreen-tab-display-control nil)
@@ -257,6 +204,8 @@
  '(geiser-racket-binary "/Users/aaditya/Applications/Racket v5.1/bin/racket")
  '(global-semantic-stickyfunc-mode t)
  '(global-semanticdb-minor-mode t)
+ '(gnus-cache-enter-articles (quote (ticked dormant unread read)))
+ '(gnus-use-cache t)
  '(ido-default-file-method (quote selected-window))
  '(ido-enable-regexp t)
  '(ipython-command "/Users/aaditya/work/id/vaitarna/pylons-shell")
@@ -267,6 +216,7 @@
  '(js2-global-externs (quote ("Y" "YUI" "epsilon")))
  '(js2-highlight-level 3)
  '(markdown-italic-underscore t)
+ '(mm-text-html-renderer (quote gnus-w3m))
  '(ns-function-modifier (quote hyper))
  '(ns-pop-up-frames nil)
  '(regex-tool-backend (quote perl))
@@ -295,4 +245,7 @@
  '(elscreen-tab-background-face ((t (:background "black" :weight bold :height 1.6))) t)
  '(elscreen-tab-current-screen-face ((t (:background "LightGoldenrod1" :foreground "black" :weight normal :height 1.1 :family "Geneva"))) t)
  '(elscreen-tab-other-screen-face ((t (:background "gray95" :foreground "black" :underline nil :height 1.1 :family "Geneva"))) t)
- '(font-lock-comment-face ((t (:foreground "#708183" :slant italic :height 110 :family "menlo")))))
+ '(font-lock-comment-face ((t (:foreground "#708183" :slant italic :height 110 :family "menlo"))))
+ '(gnus-header-content ((t (:inherit nil :box nil :weight bold))))
+ '(header-line ((t (:inherit nil :foreground "#465a61" :box (:line-width 1 :color "grey75" :style released-button))))))
+(put 'ido-exit-minibuffer 'disabled nil)
