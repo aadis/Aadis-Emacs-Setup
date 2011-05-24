@@ -88,6 +88,10 @@
                         (setq  js2-basic-offset 4
                                js2-highlight-level 3
                                js2-indent-on-enter-key t)
+                        (add-hook 'js2-mode-hook
+                                  (lambda ()
+                                    (set (make-local-variable 'compile-command)
+                                         "ant -find build.xml -q -e -Dlint.skip=true -Dskip.lint=true all && growlnotify -m \"Epsilon built\" -n Emacs -i js")))
                         (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))))
 	;;(:name el-get)
         (:name magit
@@ -188,7 +192,7 @@
  '(ecb-layout-name "aadityaright2")
  '(ecb-layout-window-sizes (quote (("aadityaright2" (ecb-methods-buffer-name 0.23504273504273504 . 0.4868421052631579) (ecb-history-buffer-name 0.23504273504273504 . 0.5)) ("aadityaright1" (ecb-methods-buffer-name 0.14957264957264957 . 0.4868421052631579) (ecb-history-buffer-name 0.14957264957264957 . 0.25) (ecb-speedbar-buffer-name 0.14957264957264957 . 0.25)) ("leftright1" (ecb-directories-buffer-name 0.1452991452991453 . 0.39436619718309857) (ecb-sources-buffer-name 0.1452991452991453 . 0.29577464788732394) (ecb-history-buffer-name 0.1452991452991453 . 0.29577464788732394) (ecb-methods-buffer-name 0.1282051282051282 . 0.9859154929577465)))))
  '(ecb-methods-menu-sorter (lambda (entries) (let ((sorted (copy-list entries))) (sort sorted (quote string-lessp)))))
- '(ecb-new-ecb-frame t)
+ '(ecb-new-ecb-frame nil)
  '(ecb-options-version "2.40")
  '(ecb-primary-secondary-mouse-buttons (quote mouse-1--mouse-2))
  '(ecb-source-file-regexps (quote ((".*" ("\\(^\\(\\.\\|#\\)\\|\\(~$\\|\\.\\(elc\\|obj\\|o\\|class\\|lib\\|dll\\|a\\|so\\|cache\\|pyc\\)$\\)\\)") ("^\\.\\(emacs\\|gnus\\)$")))))
@@ -248,4 +252,8 @@
  '(font-lock-comment-face ((t (:foreground "#708183" :slant italic :height 110 :family "menlo"))))
  '(gnus-header-content ((t (:inherit nil :box nil :weight bold))))
  '(header-line ((t (:inherit nil :foreground "#465a61" :box (:line-width 1 :color "grey75" :style released-button))))))
+
 (put 'ido-exit-minibuffer 'disabled nil)
+
+(when (require 'color-theme-sanityinc-solarized)
+  (color-theme-sanityinc-solarized-light))

@@ -83,6 +83,28 @@
 (global-set-key [(f5)] 'recompile)
 (global-set-key [(control f5)] 'compile)
 
+(defun notify-compilation-result(buffer msg)
+  "Notify that the compilation is finished,
+close the *compilation* buffer if the compilation is successful,
+and set the focus back to Emacs frame"
+  (if (string-match "^finished" msg)
+    (progn
+     ;;(delete-windows-on buffer)
+      (if (fboundp 'ecb-toggle-compile-window)
+          (ecb-toggle-compile-window 0))
+     (shell-command "growlnotify -m \"build OK\" -n Emacs -d Emacs -i js")
+     (tooltip-show "\n Compilation Successful :-) \n "))
+    (progn
+      (shell-command "growlnotify -m \"build FAILED\" -p 5 -d Emacs -n Emacs -i java")
+      (tooltip-show "\n Compilation Failed :-( \n ")))
+  (setq current-frame (car (car (cdr (current-frame-configuration)))))
+  (select-frame-set-input-focus current-frame)
+  )
+
+(add-to-list 'compilation-finish-functions
+	     'notify-compilation-result)
+
+
 (defun xsteve-ido-choose-from-recentf ()
   "Use ido to select a recently opened file from the `recentf-list'"
   (interactive)
