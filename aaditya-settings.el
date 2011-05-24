@@ -1,6 +1,7 @@
 ;;(tool-bar-mode -1)
 
 (setq ido-everywhere t)
+(setq ido-default-buffer-method 'selected-window)
 (ido-mode 1)
 ;; File finding
 (global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
@@ -96,9 +97,9 @@ and set the focus back to Emacs frame"
      (tooltip-show "\n Compilation Successful :-) \n "))
     (progn
       (shell-command "growlnotify -m \"build FAILED\" -p 5 -d Emacs -n Emacs -i java")
-      (tooltip-show "\n Compilation Failed :-( \n ")))
-  (setq current-frame (car (car (cdr (current-frame-configuration)))))
-  (select-frame-set-input-focus current-frame)
+      (tooltip-show "\n Compilation Failed :-( \n ")
+      (setq current-frame (car (car (cdr (current-frame-configuration)))))
+      (select-frame-set-input-focus current-frame)))
   )
 
 (add-to-list 'compilation-finish-functions

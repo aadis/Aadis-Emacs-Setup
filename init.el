@@ -19,10 +19,12 @@
 (setq stack-trace-on-error nil)
 
 ;;use solarized color theme
-(require 'color-theme)
-(when (require 'color-theme-sanityinc-solarized)
-  (color-theme-sanityinc-solarized-light))
+;; (require 'color-theme)
+;; (when (require 'color-theme-sanityinc-solarized)
+;;   (color-theme-sanityinc-solarized-light))
 
+;;use built in theme system
+(require 'solarized-light-theme)
 
 
 ;;all the packages we want to setup
@@ -250,10 +252,10 @@
  '(elscreen-tab-current-screen-face ((t (:background "LightGoldenrod1" :foreground "black" :weight normal :height 1.1 :family "Geneva"))) t)
  '(elscreen-tab-other-screen-face ((t (:background "gray95" :foreground "black" :underline nil :height 1.1 :family "Geneva"))) t)
  '(font-lock-comment-face ((t (:foreground "#708183" :slant italic :height 110 :family "menlo"))))
- '(gnus-header-content ((t (:inherit nil :box nil :weight bold))))
- '(header-line ((t (:inherit nil :foreground "#465a61" :box (:line-width 1 :color "grey75" :style released-button))))))
+ '(gnus-header-content ((t (:inherit nil :box nil :weight bold))) t)
+ '(header-line ((t (:inherit nil :background "lightblue" :foreground "black" :box (:line-width 1 :color "grey75" :style released-button))))))
 
 (put 'ido-exit-minibuffer 'disabled nil)
 
-(when (require 'color-theme-sanityinc-solarized)
-  (color-theme-sanityinc-solarized-light))
+;; (when (require 'color-theme-sanityinc-solarized)
+;;   (color-theme-sanityinc-solarized-light))
