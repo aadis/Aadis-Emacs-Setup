@@ -23,13 +23,13 @@
                               (top . 20) (left . 1)
                               ;; (width . 234)
                               ;; (height . 77)
-                              (cursor-type . (bar . 3))
+                              (cursor-type . (bar . 6))
                               (cursor-color . "red")))
   (setq initial-frame-alist '(
                               (top . 10) (left . 1)
                               ;; (width . 234)
                               ;; (height . 77)
-                              (cursor-type . (bar . 3))
+                              (cursor-type . (bar . 6))
                               (cursor-color . "red")))
   (set-cursor-color "red"))
 
