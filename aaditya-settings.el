@@ -23,13 +23,15 @@
                               (top . 20) (left . 1)
                               ;; (width . 234)
                               ;; (height . 77)
-                              (cursor-type . (bar . 6))
+                              (cursor-type . (bar . 2))
+                              (cursor-in-non-selected-windows . hollow)
                               (cursor-color . "red")))
   (setq initial-frame-alist '(
                               (top . 10) (left . 1)
                               ;; (width . 234)
                               ;; (height . 77)
-                              (cursor-type . (bar . 6))
+                              (cursor-type . (bar . 2))
+                              (cursor-in-non-selected-windows . hollow)
                               (cursor-color . "red")))
   (set-cursor-color "red"))
 
@@ -37,6 +39,15 @@
 
 (setq split-height-threshold nil
       split-width-threshold most-positive-fixnum)
+
+;;server stuff
+(require 'server)
+(defvar server-buffer-clients)
+(when (and (fboundp 'server-start) (not (server-running-p)))
+  (server-start)
+  (defun fp-kill-server-with-buffer-routine ()
+    (and server-buffer-clients (server-done)))
+  (add-hook 'kill-buffer-hook 'fp-kill-server-with-buffer-routine))
 
 (show-paren-mode t)
 (global-auto-revert-mode t)
@@ -218,5 +229,42 @@ and set the focus back to Emacs frame"
 
 ;; activate minor whitespace mode when in python mode
 ;;(add-hook 'python-mode-hook 'whitespace-mode)
+
+;; Hindu Holidays (North India/Nepal)
+
+(setq holiday-other-holidays 
+'(
+  (holiday-fixed 1 14  "Makar Sankranti")
+  (holiday-fixed 2 8   "Vasant Panchami / Saraswati Puja")
+  (holiday-fixed 3 3   "Maha Shivaratri")
+  (holiday-fixed 3 19  "Holi")
+  (holiday-fixed 4 4   "Bikrami Samvat / Hindu New Year [2068]")
+  (holiday-fixed 4 12  "Ram Navmi")
+  (holiday-fixed 4 18  "Hanuman Jayanti")
+  (holiday-fixed 5 6   "Akshaya Tritiya (Akha Teej)")
+  (holiday-fixed 6 15  "Savitri Puja")
+  (holiday-fixed 7 15  "Guru Purnima")
+  (holiday-fixed 8 4   "Naag Panchami")
+  (holiday-fixed 8 12  "Mahalakshmi Vrata")
+  (holiday-fixed 8 13  "Raksha-Bandhan + Janai Purnima")
+  (holiday-fixed 8 22  "Krishna Janmashtami")
+  (holiday-fixed 9 1   "Ganesh Chaturthi")
+  (holiday-fixed 9 9   "Indra Jatra begins")
+  (holiday-fixed 9 11  "Kumari Indra Jatra")
+  (holiday-fixed 9 17  "Indra Jatra ends")
+  (holiday-fixed 9 11  "Teej")
+  (holiday-fixed 9 13  "Pitr-Paksha begins")
+  (holiday-fixed 9 27  "Mahalaya (Pitr-Paksha ends)")
+  (holiday-fixed 9 28  "Navaratri begins")
+  (holiday-fixed 10 3  "Durga Puja begins (Maha Saptami)")
+  (holiday-fixed 10 5  "Navaratri ends")
+  (holiday-fixed 10 6  "Dasain/Dusshera (Vijaya Dashami)")
+  (holiday-fixed 10 11 "Lakshmi Puja (Sharad Purnima)")
+  (holiday-fixed 10 16 "Karwa Chauth")
+  (holiday-fixed 10 25 "Dhan Teras")
+  (holiday-fixed 10 26 "Diwali / Deepavali / Tihar")
+  (holiday-fixed 10 28 "Bhai Dooj")
+  )
+)
 
 (provide 'aaditya-settings)
