@@ -17,7 +17,7 @@
 (set-scroll-bar-mode 'right)
 
 
-(defun aaditya/set-screen ()
+(defun aaditya-old/set-screen ()
   (interactive)
   (setq default-frame-alist '(
                               (top . 20) (left . 1)
@@ -35,7 +35,7 @@
                               (cursor-color . "red")))
   (set-cursor-color "red"))
 
-(aaditya/set-screen)
+;;(aaditya/set-screen)
 
 (setq split-height-threshold nil
       split-width-threshold most-positive-fixnum)

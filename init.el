@@ -1,12 +1,12 @@
-(setq message-log-max 500)
+(setq message-log-max 2000)
 
 ;;setup some initial load paths
 (add-to-list 'load-path "~/.emacs.d/")
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
+
 ;; (add-to-list 'load-path "~/.emacs.d/el-get/ecb/ecb2")
 ;; (add-to-list 'load-path "~/.emacs.d/el-get/ecb/cedet/semantic")
 ;;(add-to-list 'load-path "~/.emacs.d/el-get/color-theme")
-
 ;;our package sources
 (setq package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/")
                                ("marmalade" . "http://marmalade-repo.org/packages/")
@@ -162,8 +162,6 @@
    )
  )
 
-(el-get)
-
 (setq semantic-python-dependency-system-include-path
       '("/Users/aaditya/work/id" "/Users/aaditya/work/id/src" "/Users/aaditya/work/id/src/id/vaitarna" "/Users/aaditya/.env/ep/lib/python2.6/site-packages" "/Users/aaditya/.env/ep/lib/python2.6" "/System/Library/Frameworks/Python.framework/Versions/2.6/lib/python2.6"))
 
@@ -173,6 +171,8 @@
 
 (require 'info)
 (add-to-list 'Info-default-directory-list (expand-file-name "~/src/local/gnus/texi"))
+
+(el-get)
 
 (require 'aaditya-settings)
 (require 'aaditya-packages)
@@ -204,11 +204,12 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Consolas"))))
+ '(header-line ((t (:inherit mode-line :background "orange1" :foreground "#000" :box nil)))))
 
 (put 'ido-exit-minibuffer 'disabled nil)
 ;;use built in theme system
-(load-theme 'solarized-light)
+;;(load-theme 'solarized-light)
 
 
 ;; (when (require 'color-theme-sanityinc-solarized)

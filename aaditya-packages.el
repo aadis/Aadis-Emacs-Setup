@@ -28,8 +28,6 @@
 
 
 
-
-
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
@@ -51,12 +49,12 @@
 ;;  (color-theme-blackboard))
 
 ;;use eproject to manage epsilon project
-(when (require 'eproject)
-  (require 'eproject-extras)
-  (define-project-type pylons (generic)
-    (look-for "development.ini")
-    :relevant-files ("\\.py$" "\\.js$" "\\.html$" "\\.mako$" "\\.css$" "\\.json$" "\\.xml$" "\\.properties$")
-    :irrelevant-files ("public/lib" "public/components" "^gallery-" "^yui2-"))
-)
+;; (when (require 'eproject)
+;;   (require 'eproject-extras)
+;;   (define-project-type pylons (generic)
+;;     (look-for "development.ini")
+;;     :relevant-files ("\\.py$" "\\.js$" "\\.html$" "\\.mako$" "\\.css$" "\\.json$" "\\.xml$" "\\.properties$")
+;;     :irrelevant-files ("public/lib" "public/components" "^gallery-" "^yui2-"))
+;; )
 
 (provide 'aaditya-packages)
