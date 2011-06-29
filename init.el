@@ -4,9 +4,6 @@
 (add-to-list 'load-path "~/.emacs.d/")
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
 
-;; (add-to-list 'load-path "~/.emacs.d/el-get/ecb/ecb2")
-;; (add-to-list 'load-path "~/.emacs.d/el-get/ecb/cedet/semantic")
-;;(add-to-list 'load-path "~/.emacs.d/el-get/color-theme")
 ;;our package sources
 (setq package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/")
                                ("marmalade" . "http://marmalade-repo.org/packages/")
@@ -17,12 +14,6 @@
 
 ;;ECB still depends on this
 (setq stack-trace-on-error nil)
-
-;;use solarized color theme
-;; (require 'color-theme)
-;; (when (require 'color-theme-sanityinc-solarized)
-;;   (color-theme-sanityinc-solarized-light))
-
 
 ;;all the packages we want to setup
 (setq 
@@ -187,6 +178,8 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(background-mode light)
+ '(cursor-color "#5c5cff")
  '(custom-safe-themes (quote ("5600dc0bb4a2b72a613175da54edb4ad770105aa" "0174d99a8f1fdc506fa54403317072982656f127" default)))
  '(ecb-layout-name "leftright-analyse")
  '(ecb-layout-window-sizes (quote (("leftright-analyse" (ecb-directories-buffer-name 0.09829059829059829 . 0.3918918918918919) (ecb-sources-buffer-name 0.09829059829059829 . 0.2972972972972973) (ecb-history-buffer-name 0.09829059829059829 . 0.2972972972972973) (ecb-methods-buffer-name 0.23931623931623933 . 0.4864864864864865) (ecb-analyse-buffer-name 0.23931623931623933 . 0.5)))))
@@ -195,7 +188,11 @@
  '(ecb-source-file-regexps (quote ((".*" ("\\(^\\(\\.\\|#\\)\\|\\(~$\\|\\.\\(elc\\|obj\\|o\\|class\\|lib\\|dll\\|a\\|so\\|cache\\|pyc\\)$\\)\\)") ("^\\.\\(emacs\\|gnus\\)$")))))
  '(ecb-source-path (quote (("/Users/aaditya/work/id" "Epsilon") ("/" "/"))))
  '(ecb-tree-indent 2)
- '(ecb-vc-enable-support nil))
+ '(ecb-vc-enable-support nil)
+ '(eshell-modules-list (quote (eshell-alias eshell-banner eshell-basic eshell-cmpl eshell-dirs eshell-glob eshell-hist eshell-ls eshell-pred eshell-prompt eshell-rebind eshell-script eshell-smart eshell-term eshell-unix eshell-xtra)))
+ '(flymake-allowed-file-name-masks (quote (("\\.c\\'" flymake-simple-make-init) ("\\.cpp\\'" flymake-simple-make-init) ("\\.xml\\'" flymake-xml-init) ("\\.cs\\'" flymake-simple-make-init) ("\\.p[ml]\\'" flymake-perl-init) ("\\.php[345]?\\'" flymake-php-init) ("\\.h\\'" flymake-master-make-header-init flymake-master-cleanup) ("\\.java\\'" flymake-simple-make-java-init flymake-simple-java-cleanup) ("[0-9]+\\.tex\\'" flymake-master-tex-init flymake-master-cleanup) ("\\.tex\\'" flymake-simple-tex-init) ("\\.idl\\'" flymake-simple-make-init))))
+ '(flymake-log-level 2)
+ '(foreground-color "#5c5cff"))
 
 (toggle-debug-on-error nil)
 
@@ -208,8 +205,9 @@
  '(header-line ((t (:inherit mode-line :background "orange1" :foreground "#000" :box nil)))))
 
 (put 'ido-exit-minibuffer 'disabled nil)
+
 ;;use built in theme system
-;;(load-theme 'solarized-light)
+;;(load-theme 'solarized-dark)
 
 
 ;; (when (require 'color-theme-sanityinc-solarized)

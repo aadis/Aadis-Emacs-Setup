@@ -130,6 +130,8 @@ and set the focus back to Emacs frame"
 
 (global-set-key [(f6)] 'xsteve-ido-choose-from-recentf)
 
+(setenv "ESHELL" (expand-file-name "/bin/bash"))
+
 ;;settings
 (setq
  debug-on-error nil
@@ -158,7 +160,8 @@ and set the focus back to Emacs frame"
  sql-user "epsilon"
  truncate-partial-width-windows nil
  nxml-slash-auto-complete-flag t
- transient-mark-mode nil
+ transient-mark-mode t
+ mark-even-if-inactive t
  tramp-default-method "rsync"
  frame-background-mode 'light
  uniquify-buffer-name-style 'forward)
