@@ -37,19 +37,31 @@
   (view-buffer-other-window "*PYDOCS*" t 'kill-buffer-and-window))
 
 (add-hook 'python-mode-hook
-          '(lambda () (eldoc-mode 1)
+          '(lambda () 
              (unless (eq buffer-file-name nil) (flymake-mode nil)) ;dont invoke flymake on temporary buffers for the interpreter
              (set-variable 'py-indent-offset 4)
              (set-variable 'py-smart-indentation nil)
              (set-variable 'indent-tabs-mode nil)
              (local-set-key "\C-c\C-f" 'py-doc-search)
-             (eldoc-mode 1)
+             (eldoc-mode 0)
              ;;(highlight-beyond-fill-column)
 
              ;;(pabbrev-mode)
              (abbrev-mode)
 
              ) t)
+
+(when (load "flymake" t)
+ (defun flymake-pyflakes-init ()
+   (let* ((temp-file (flymake-init-create-temp-buffer-copy
+              'flymake-create-temp-inplace))
+      (local-file (file-relative-name
+           temp-file
+           (file-name-directory buffer-file-name))))
+     (list "pycheckers" (list local-file))))
+  (add-to-list 'flymake-allowed-file-name-masks
+            '("\\.py\\'" flymake-pyflakes-init)))
+
 
 (defun pylons-shell (&optional argprompt)
   (interactive "P")
@@ -135,18 +147,6 @@ displayed in the minibuffer (rather than having to mouse over
 it)"
   (set (make-local-variable 'post-command-hook)
        (cons 'show-fly-err-at-point post-command-hook)))
-
-;;(when (load "flymake" t)
-;;  (defun flymake-pyflakes-init ()
-;;    (let* ((temp-file (flymake-init-create-temp-buffer-copy
-;;               'flymake-create-temp-inplace))
-;;       (local-file (file-relative-name
-;;            temp-file
-;;            (file-name-directory buffer-file-name))))
-;;      (list "flake8" "--ignore=E501" (list local-file))))
-;;   (add-to-list 'flymake-allowed-file-name-masks
-;;             '("\\.py\\'" flymake-pyflakes-init)))
-
 
 (provide 'aaditya-python)
 

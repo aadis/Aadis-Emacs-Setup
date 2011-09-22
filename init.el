@@ -80,6 +80,7 @@
                           js2-indent-on-enter-key t)
                    (add-hook 'js2-mode-hook
                              (lambda ()
+                               (yas/minor-mode t)
                                (set (make-local-variable 'compile-command)
                                     "ant -find build.xml -q -e -Dlint.skip=true -Dskip.lint=true all")))
                    (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))))
@@ -138,6 +139,7 @@
                      (moz-minor-mode 1))
                    (add-hook 'js2-mode-hook 'js2-custom-setup)))
    (:name yasnippet)
+   (:name yasnippet-config)
    (:name multi-web-mode
           :type git
           :url "https://github.com/fgallina/multi-web-mode.git"
@@ -146,15 +148,30 @@
                               (setq mweb-default-major-mode 'html-mode)
                               (setq mweb-tags '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
                                                 (python-mode "${" "}")
-                                                (js2-mode "<script +\\(type=\"text/javascript\"\\|language=\"javascript\"\\)[^>]*>" "</script>")
+                                                (javascript-mode "<script +\\(type=\"text/javascript\"\\|language=\"javascript\"\\)[^>]*>" "</script>")
                                                 (css-mode "<style +type=\"text/css\"[^>]*>" "</style>")))
                               (setq mweb-filename-extensions '("php" "htm" "html" "ctp" "mako" "php4" "php5"))
                               (multi-web-global-mode 1))))
+   (:name deft
+          :type git
+          :url "git://jblevins.org/git/deft.git"
+          :after (lambda () (progn
+                              (require 'deft)
+                              (setq deft-directory "~/Documents/notes/")
+                              (setq deft-extension "org")
+                              (setq deft-text-mode 'org-mode)
+                              (global-set-key [f7] 'deft)))
+          )
    )
  )
 
 (setq semantic-python-dependency-system-include-path
       '("/Users/aaditya/work/id" "/Users/aaditya/work/id/src" "/Users/aaditya/work/id/src/id/vaitarna" "/Users/aaditya/.env/ep/lib/python2.6/site-packages" "/Users/aaditya/.env/ep/lib/python2.6" "/System/Library/Frameworks/Python.framework/Versions/2.6/lib/python2.6"))
+
+(add-hook 'css-mode-hook
+          (lambda ()
+            (set (make-local-variable 'compile-command)
+                 "ant -find build.xml -q -e -Dlint.skip=true -Dskip.lint=true all")))
 
 
 (setq load-path (cons (expand-file-name "~/src/local/gnus/lisp") load-path))
@@ -178,8 +195,14 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(background-mode light)
+ '(background-color "#7f7f7f")
+ '(background-mode dark)
+ '(compilation-auto-jump-to-first-error t)
+ '(compilation-context-lines 2)
+ '(compilation-scroll-output t)
+ '(compilation-window-height 12)
  '(cursor-color "#5c5cff")
+ '(custom-enabled-themes nil)
  '(custom-safe-themes (quote ("5600dc0bb4a2b72a613175da54edb4ad770105aa" "0174d99a8f1fdc506fa54403317072982656f127" default)))
  '(ecb-layout-name "leftright-analyse")
  '(ecb-layout-window-sizes (quote (("leftright-analyse" (ecb-directories-buffer-name 0.09829059829059829 . 0.3918918918918919) (ecb-sources-buffer-name 0.09829059829059829 . 0.2972972972972973) (ecb-history-buffer-name 0.09829059829059829 . 0.2972972972972973) (ecb-methods-buffer-name 0.23931623931623933 . 0.4864864864864865) (ecb-analyse-buffer-name 0.23931623931623933 . 0.5)))))
@@ -192,7 +215,16 @@
  '(eshell-modules-list (quote (eshell-alias eshell-banner eshell-basic eshell-cmpl eshell-dirs eshell-glob eshell-hist eshell-ls eshell-pred eshell-prompt eshell-rebind eshell-script eshell-smart eshell-term eshell-unix eshell-xtra)))
  '(flymake-allowed-file-name-masks (quote (("\\.c\\'" flymake-simple-make-init) ("\\.cpp\\'" flymake-simple-make-init) ("\\.xml\\'" flymake-xml-init) ("\\.cs\\'" flymake-simple-make-init) ("\\.p[ml]\\'" flymake-perl-init) ("\\.php[345]?\\'" flymake-php-init) ("\\.h\\'" flymake-master-make-header-init flymake-master-cleanup) ("\\.java\\'" flymake-simple-make-java-init flymake-simple-java-cleanup) ("[0-9]+\\.tex\\'" flymake-master-tex-init flymake-master-cleanup) ("\\.tex\\'" flymake-simple-tex-init) ("\\.idl\\'" flymake-simple-make-init))))
  '(flymake-log-level 2)
- '(foreground-color "#5c5cff"))
+ '(flymake-no-changes-timeout 8.0)
+ '(font-latex-fontify-sectioning 1.2)
+ '(foreground-color "#5c5cff")
+ '(ns-right-alternate-modifier (quote control))
+ '(package-archives (quote (("gnu" . "http://elpa.gnu.org/packages/") ("marmalade" . "http://marmalade-repo.org/packages/") ("elpa" . "http://tromey.com/elpa/") ("sunrise-commander" . "http://joseito.republika.pl/sunrise-commander/"))))
+ '(show-paren-mode t)
+ '(size-indication-mode t)
+ '(uniquify-buffer-name-style (quote forward) nil (uniquify))
+ '(uniquify-min-dir-content 1)
+ '(uniquify-separator "|"))
 
 (toggle-debug-on-error nil)
 
@@ -201,15 +233,21 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(default ((t (:inherit nil :stipple nil :background "white" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Consolas"))))
+ '(default ((t (:inherit nil :stipple nil :background "oldlace" :foreground "black" :inverse-video nil :box nil :strike-through nil :overline nil :underline nil :slant normal :weight normal :height 120 :width normal :foundry "apple" :family "Consolas"))))
+ '(cursor ((t (:background "indian red"))))
+ '(diredp-compressed-file-suffix ((t nil)))
+ '(diredp-file-name ((t (:foreground "blue"))))
+ '(diredp-ignored-file-name ((t nil)))
+ '(diredp-write-priv ((t nil)))
+ '(font-lock-comment-face ((t (:foreground "Firebrick" :slant oblique :height 1.1 :family "Calibri"))))
  '(header-line ((t (:inherit mode-line :background "orange1" :foreground "#000" :box nil)))))
 
 (put 'ido-exit-minibuffer 'disabled nil)
 
 ;;use built in theme system
-;;(load-theme 'solarized-dark)
-
+(load-theme 'solarized-light)
 
 ;; (when (require 'color-theme-sanityinc-solarized)
 ;;   (color-theme-sanityinc-solarized-light))
 (put 'set-goal-column 'disabled nil)
+(put 'scroll-left 'disabled nil)

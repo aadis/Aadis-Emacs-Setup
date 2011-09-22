@@ -16,26 +16,30 @@
 
 (set-scroll-bar-mode 'right)
 
+;; I like truncated lines, this fact i cannot deny
+(setq-default truncate-lines t)
+(setq truncate-partial-width-windows nil) ;; for vertically-split windows
 
-(defun aaditya-old/set-screen ()
+(defun aaditya/set-screen ()
   (interactive)
+  (setq-default cursor-type 'bar)   
   (setq default-frame-alist '(
-                              (top . 20) (left . 1)
+                              ;;(top . 20) (left . 1)
                               ;; (width . 234)
                               ;; (height . 77)
                               (cursor-type . (bar . 2))
-                              (cursor-in-non-selected-windows . hollow)
-                              (cursor-color . "red")))
+                              (cursor-in-non-selected-windows . hollow)))
   (setq initial-frame-alist '(
-                              (top . 10) (left . 1)
+                              ;;(top . 10) (left . 1)
                               ;; (width . 234)
                               ;; (height . 77)
                               (cursor-type . (bar . 2))
-                              (cursor-in-non-selected-windows . hollow)
-                              (cursor-color . "red")))
-  (set-cursor-color "red"))
+                              (cursor-in-non-selected-windows . hollow)))
+  ;;(set-cursor-color "red")
+  )
 
-;;(aaditya/set-screen)
+(blink-cursor-mode t)
+(aaditya/set-screen)
 
 (setq split-height-threshold nil
       split-width-threshold most-positive-fixnum)
@@ -105,7 +109,8 @@ and set the focus back to Emacs frame"
       (if (fboundp 'ecb-toggle-compile-window)
           (ecb-toggle-compile-window 0))
      (shell-command "growlnotify -m \"build OK\" -n Emacs -d Emacs -i js")
-     (tooltip-show "\n Compilation Successful :-) \n "))
+     ;;(tooltip-show "\n Compilation Successful :-) \n ")
+     )
     (progn
       (shell-command "growlnotify -m \"build FAILED\" -p 5 -d Emacs -n Emacs -i java")
       (tooltip-show "\n Compilation Failed :-( \n ")
@@ -115,6 +120,15 @@ and set the focus back to Emacs frame"
 
 (add-to-list 'compilation-finish-functions
 	     'notify-compilation-result)
+
+(add-to-list 'compilation-finish-functions 'compile-autoclose)
+(defun compile-autoclose (buffer string)
+  (cond ((string-match "finished" string)
+         (bury-buffer "*compilation*")
+         (winner-undo)
+         (message "Build successful."))
+        (t                                                                    
+         (message "Compilation exited abnormally: %s" string))))
 
 
 (defun xsteve-ido-choose-from-recentf ()
@@ -165,6 +179,8 @@ and set the focus back to Emacs frame"
  tramp-default-method "rsync"
  frame-background-mode 'light
  uniquify-buffer-name-style 'forward)
+
+(setq tramp-backup-directory-alist backup-directory-alist)
 
 ;;rcirc
 (setq
@@ -230,6 +246,8 @@ and set the focus back to Emacs frame"
                     :foreground "yellow"
                     :weight 'bold)
 
+(follow-mode t)
+
 ;; activate minor whitespace mode when in python mode
 ;;(add-hook 'python-mode-hook 'whitespace-mode)
 
@@ -269,5 +287,6 @@ and set the focus back to Emacs frame"
   (holiday-fixed 10 28 "Bhai Dooj")
   )
 )
+
 
 (provide 'aaditya-settings)
