@@ -1,4 +1,6 @@
-
+;;long running emacs have we, clean up buffers now and then
+(require 'midnight)
+(midnight-delay-set 'midnight-delay "4:30am")
 
 (require 'winner)
 (winner-mode 1)
@@ -17,17 +19,17 @@
                               "*irc.freenode.net*"
                               ))
 
+;;better movement via windmove
 (require 'windmove)
 (windmove-default-keybindings)
 
+;;jshint for on the fly linting of our javascript
+(add-to-list 'load-path "/usr/local/lib/node/.npm/jshint-mode/0.0.2/package")
+;;(require 'flymake-jshint)
+;; (add-hook 'js2-mode-hook
+;;     (lambda () (flymake-mode t)))
 
-;;(when (load "~/.emacs.d/nxhtml/autostart")
-;;  (require 'css-simple-completion)
-;;  (autoload 'css-color-mode "css-color" "" t)
-;;  (add-hook 'css-mode-hook 'css-color-mode-turn-on))
-
-
-
+;;;Those weird days when we edit TeX
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq-default TeX-master nil)
@@ -38,23 +40,5 @@
 
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-AUCTeX t)
-
-(require 'midnight)
-(midnight-delay-set 'midnight-delay "4:30am")
-
-;;(require 'edit-server)
-;;(edit-server-start)
-
-;;(when (load-file "~/.emacs.d/color-theme-blackboard.el")
-;;  (color-theme-blackboard))
-
-;;use eproject to manage epsilon project
-;; (when (require 'eproject)
-;;   (require 'eproject-extras)
-;;   (define-project-type pylons (generic)
-;;     (look-for "development.ini")
-;;     :relevant-files ("\\.py$" "\\.js$" "\\.html$" "\\.mako$" "\\.css$" "\\.json$" "\\.xml$" "\\.properties$")
-;;     :irrelevant-files ("public/lib" "public/components" "^gallery-" "^yui2-"))
-;; )
 
 (provide 'aaditya-packages)
