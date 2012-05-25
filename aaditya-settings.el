@@ -1,24 +1,50 @@
 ;; File finding
 (global-set-key (kbd "C-x M-f") 'ido-find-file-other-window)
 
-(setq vc-handled-backends nil)
+;;(setq vc-handled-backends nil)
 
 ;; Use regex searches by default.
 (global-set-key "\C-s" 'isearch-forward-regexp)
 (global-set-key "\C-r" 'isearch-backward-regexp)
 (global-set-key "\C-\M-s" 'isearch-forward)
 (global-set-key "\C-\M-r" 'isearch-backward)
+(global-set-key (kbd "<f3>") 'eshell)
 
 (set-scroll-bar-mode 'right)
 
 ;; I like truncated lines, this fact i cannot deny
+
+(add-hook 'ido-minibuffer-setup-hook
+	  (lambda ()
+	    (setq truncate-lines nil)))
 (setq-default truncate-lines t)
 (setq truncate-partial-width-windows nil) ;; for vertically-split windows
+
+(dolist (hook '(erc-mode-hook
+                LaTeX-mode-hook
+                edit-server-start-hook
+                markdown-mode-hook
+                twittering-mode
+                text-mode
+                fundamental-mode))
+  (add-hook hook (lambda () (variable-pitch-mode t))))
+
 
 (blink-cursor-mode t)
 
 (setq split-height-threshold nil
       split-width-threshold most-positive-fixnum)
+
+;;rsyncc uses OpenSSH ControlMaster, which I use
+(setq tramp-default-method "rsyncc")
+
+(setq backup-directory-alist
+      `((".*" . ,temporary-file-directory)))
+(setq auto-save-file-name-transforms
+      `((".*" ,temporary-file-directory t)))
+
+;;delete trailing whitespaces
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
 
 ;;server stuff
 (require 'server)
@@ -34,6 +60,7 @@
 (setq-default indent-tabs-mode nil)
 (fset 'yes-or-no-p 'y-or-n-p)
 (global-set-key (kbd "M-`") 'ns-next-frame)
+(global-set-key (kbd "C-x g") 'magit-status)
 
 (setq ns-command-modifier 'meta)
 
@@ -62,7 +89,9 @@
  show-paren-mode t
  backup-by-copying t                          ; don't clobber symlinks
  backup-directory-alist '(("." . "~/.saves")) ; don't litter my fs tree
- frame-title-format '(buffer-file-name "%f %+%+" ("%b"))
+ frame-title-format '((:eval (if (buffer-file-name)
+                                 (abbreviate-file-name (buffer-file-name))
+                               "%b")) " [%*] %@")
  blink-cursor-mode t
  save-place t
  scroll-conservatively most-positive-fixnum
@@ -111,6 +140,7 @@
 (add-hook 'comint-mode-hook
           (lambda ()
             (message "setting my comint keys")
+            (setq truncate-lines t)
             (define-key comint-mode-map (kbd "M-p") 'comint-previous-matching-input-from-input)
             (define-key comint-mode-map (kbd "M-n") 'comint-next-matching-input-from-input)
             (define-key comint-mode-map (kbd "C-M-n") 'comint-next-input)
@@ -128,6 +158,9 @@
 ;; trailing whitespaces
 (setq whitespace-line-column 80
       whitespace-style '(tabs trailing lines-tail))
+
+;;use ibuffer
+(defalias 'list-buffers 'ibuffer)
 
 ;; face for long lines' tails
 (set-face-attribute 'whitespace-line nil
@@ -148,7 +181,7 @@
 
 ;; Hindu Holidays (North India/Nepal)
 
-(setq holiday-other-holidays 
+(setq holiday-other-holidays
 '(
   (holiday-fixed 1 14  "Makar Sankranti")
   (holiday-fixed 2 8   "Vasant Panchami / Saraswati Puja")
@@ -183,5 +216,37 @@
   )
 )
 
+;;allow max on OS X
+(defun get-frame-max-lines ()
+  (-
+   (/
+    (* (- (display-pixel-height) 20) (frame-height))
+    (frame-pixel-height)) 2))
+
+(defun get-frame-max-cols ()
+  (-
+   (/
+    (* (display-pixel-width) (frame-width))
+    (frame-pixel-width))
+   0  ))
+
+(defun maximize-frame ()
+  (interactive)
+  (set-frame-position (selected-frame) 0 20)
+  (set-frame-size (selected-frame) (get-frame-max-cols) (get-frame-max-lines)))
+
+(defun halve-frame-h ()
+  (interactive)
+  (set-frame-position (selected-frame) 0 20)
+  (set-frame-size (selected-frame) (/ (frame-width) 2) (frame-height)))
+
+(defun halve-frame-v ()
+  (interactive)
+  (set-frame-position (selected-frame) 0 20)
+  (set-frame-size (selected-frame) (frame-width) (/ (frame-height) 2)))
+
+(global-set-key (kbd "C-|") 'maximize-frame)
+(global-set-key (kbd "C->") 'halve-frame-h)
+(global-set-key (kbd "C-<") 'halve-frame-v)
 
 (provide 'aaditya-settings)
