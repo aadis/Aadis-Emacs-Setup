@@ -24,7 +24,7 @@
 (windmove-default-keybindings)
 
 ;;jshint for on the fly linting of our javascript
-(add-to-list 'load-path "/usr/local/lib/node/.npm/jshint-mode/0.0.2/package")
+;;(add-to-list 'load-path "/usr/local/lib/node/.npm/jshint-mode/0.0.2/package")
 ;;(require 'flymake-jshint)
 ;; (add-hook 'js2-mode-hook
 ;;     (lambda () (flymake-mode t)))
@@ -42,7 +42,7 @@
 (setq reftex-plug-into-AUCTeX t)
 
 ;;stop blowing up ipython 0.11
-(setq py-python-command-args '(""))
+;;(setq py-python-command-args '(""))
 
 ;;use ack-and-a-half
 (autoload 'ack-and-a-half-same "ack-and-a-half" nil t)
@@ -55,18 +55,9 @@
 (defalias 'ack-find-file 'ack-and-a-half-find-file)
 (defalias 'ack-find-file-same 'ack-and-a-half-find-file-same)
 
-(require 'bm)
-(global-set-key (kbd "<C-f2>") 'bm-toggle)
-(global-set-key (kbd "<f2>")   'bm-next)
-(global-set-key (kbd "<S-f2>") 'bm-previous)
-
-(global-set-key (kbd "<left-fringe> <wheel-down>") 'bm-next-mouse)
-(global-set-key (kbd "<left-fringe> <wheel-up>") 'bm-previous-mouse)
-(global-set-key (kbd "<left-fringe> <mouse-1>") 'bm-toggle-mouse)
-
 ;;edit server for chrome integration
-(require 'edit-server)
-(edit-server-start)
+;; (require 'edit-server)
+;; (edit-server-start)
 
 ;;use textile mode for editing redmine
 (defun set-nice-prop-font ()
