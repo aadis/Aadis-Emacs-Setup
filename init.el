@@ -93,7 +93,9 @@
 	 (:name pymacs
 	        :after (progn
 	        	 (setq pymacs-python-command (expand-file-name "~/work/meghdoot/lib/buildout/parts/pip/bin/python"))
-	        	 (require 'pymacs)))
+	        	 (require 'pymacs)
+                         (global-set-key (kbd "M-/") 'hippie-expand)
+                         ))
 	 (:name ropemacs
 	        :after (progn
                          (pymacs-load "ropemacs" "rope-")
@@ -114,6 +116,7 @@
                           "';'.join(module_completion('''%s'''))\n"
                           python-shell-completion-string-code
                           "';'.join(get_ipython().Completer.all_completions('''%s'''))\n")
+                         (add-to-list 'python-mode-hook (lambda() (local-set-key (kbd "M-/") 'hippie-expand)) t)
                          ))
          (:name ecb
                 :after (progn
@@ -240,12 +243,13 @@
  '(default-frame-alist (quote ((vertical-scroll-bars . right) (left . 40) (top . 20) (width . 119) (height . 53) (font . "-apple-Everson Mono-medium-normal-normal-*-12-*-*-*-m-0-iso10646-1"))))
  '(dired-use-ls-dired nil)
  '(display-battery-mode t)
- '(ecb-auto-expand-tag-tree (quote all))
- '(ecb-auto-expand-tag-tree-collapse-other (quote only-if-on-tag))
+ '(ecb-auto-expand-tag-tree nil)
+ '(ecb-auto-expand-tag-tree-collapse-other (quote always))
  '(ecb-auto-update-methods-after-save t)
  '(ecb-compilation-buffer-names (quote (("*Calculator*") ("*vc*") ("*vc-diff*") ("*Apropos*") ("*Occur*") ("*shell*") ("\\*[cC]ompilation.*\\*" . t) ("\\*i?grep.*\\*" . t) ("*JDEE Compile Server*") ("*Help*") ("*Completions*") ("*Backtrace*") ("*Compile-log*") ("*bsh*") ("*Messages*") ("*eshell*"))))
- '(ecb-compile-window-height 0.25)
- '(ecb-compile-window-temporally-enlarge (quote both))
+ '(ecb-compile-window-height nil)
+ '(ecb-compile-window-temporally-enlarge nil)
+ '(ecb-compile-window-width (quote edit-window))
  '(ecb-layout-name "left11")
  '(ecb-layout-window-sizes (quote (("left11" (ecb-methods-buffer-name 0.22033898305084745 . 0.7424242424242424) (ecb-history-buffer-name 0.22033898305084745 . 0.24242424242424243)) ("left6" (ecb-sources-buffer-name 0.2028985507246377 . 0.1935483870967742) (ecb-methods-buffer-name 0.2028985507246377 . 0.5806451612903226) (ecb-history-buffer-name 0.2028985507246377 . 0.20967741935483872)) ("leftright1" (ecb-directories-buffer-name 0.1906779661016949 . 0.36363636363636365) (ecb-sources-buffer-name 0.1906779661016949 . 0.3333333333333333) (ecb-history-buffer-name 0.1906779661016949 . 0.2878787878787879) (ecb-methods-buffer-name 0.11864406779661017 . 0.9848484848484849)) ("leftright-analyse" (ecb-directories-buffer-name 0.2094017094017094 . 0.39705882352941174) (ecb-sources-buffer-name 0.2094017094017094 . 0.29411764705882354) (ecb-history-buffer-name 0.2094017094017094 . 0.29411764705882354) (ecb-methods-buffer-name 0.2264957264957265 . 0.47058823529411764) (ecb-analyse-buffer-name 0.2264957264957265 . 0.5147058823529411)))))
  '(ecb-methods-nodes-expand-spec (quote all))
@@ -288,7 +292,7 @@
  '(midnight-mode t nil (midnight))
  '(ns-right-alternate-modifier (quote control))
  '(remote-file-name-inhibit-cache 60)
- '(safe-local-variable-values (quote ((encoding . utf-8))))
+ '(safe-local-variable-values (quote ((virtualenv-default-directory . ".") (virtualenv-workon . "rp") (encoding . utf-8))))
  '(semantic-complete-inline-analyzer-displayor-class (quote semantic-displayor-tooltip))
  '(semantic-default-submodes (quote (global-semantic-decoration-mode global-semantic-idle-scheduler-mode global-semanticdb-minor-mode)))
  '(semantic-python-dependency-system-include-path (quote ("/Users/aaditya/work/meghdoot/src/py" "/Users/aaditya/work/id" " /Users/aaditya/work/id/src" " /Users/aaditya/work/id/src/id/vaitarna")))
